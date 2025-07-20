@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthorController;
+use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\BorrowingController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +22,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('books', BookController::class);
+    Route::resource('authors', AuthorController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('borrowings', BorrowingController::class);
+    Route::resource('users', UserController::class);
 });
+
+Route::get('/admin/books/{id}', [BookController::class, 'show'])->whereNumber('id');

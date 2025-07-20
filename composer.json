@@ -12,8 +12,7 @@
         "irazasyed/telegram-bot-sdk": "^3.15",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
-        "laravel/tinker": "^2.10",
-        "tcg/voyager": "^1.7"
+        "laravel/tinker": "^2.10"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
