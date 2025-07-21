@@ -215,6 +215,5 @@ return [
         // 'stop' => Acme\Project\Commands\StopCommand::class,
         // 'status' => Acme\Project\Commands\StatusCommand::class,
     ],
-
-
+    'group_id' => env('TELEGRAM_GROUP_ID', 'YOUR-TELEGRAM-GROUP-ID'),
 ];

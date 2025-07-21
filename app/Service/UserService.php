@@ -2,12 +2,13 @@
 
 namespace App\Service;
 
-use Exception;
+use App\Events\TelegramEvent;
 use App\Models\User;
-use App\Service\TelegramService;
 use App\Repository\UserRepository;
-use Illuminate\Support\Facades\Hash;
+use App\Service\Telegram\Telegram;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -43,14 +44,7 @@ class UserService
         if (!$result) {
             throw new Exception('User not created');
         }
-
-        app(TelegramService::class)->sendMessage(
-            "✏️ Пользователь создан:\n" .
-            "🆔 id: ({$result->id})\n" .
-            "👤 name: ({$result->name})\n" .
-            "📧 email: ({$result->email})"
-        );
-
+        TelegramEvent::dispatch($result);
         return $result;
     }
 
@@ -70,14 +64,7 @@ class UserService
         $updated = $user->update($data);
 
         if ($updated) {
-
-            app(TelegramService::class)->sendMessage(
-                "✏️ Пользователь обновлён:\n" .
-                "🆔 id: ({$user->id})\n" .
-                "👤 name: ({$user->name})\n" .
-                "📧 email: ({$user->email})"
-            );
-
+            TelegramEvent::dispatch($updated);
         }
 
         return $updated;
@@ -96,12 +83,7 @@ class UserService
 
         if ($deleted) {
 
-            app(TelegramService::class)->sendMessage(
-                "✏️ Пользователь обновлён:\n" .
-                "🆔 id: ({$id})\n" .
-                "👤 name: ({$name})\n" .
-                "📧 email: ({$email})"
-            );
+            TelegramEvent::dispatch($deleted);
 
         }
 
