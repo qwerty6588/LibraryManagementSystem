@@ -6,7 +6,15 @@
         <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mb-3">Create Category</a>
 
         @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+            </div>
         @endif
 
         <table class="table">

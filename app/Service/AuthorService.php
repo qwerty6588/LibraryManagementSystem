@@ -47,7 +47,7 @@ class AuthorService
         if (!$updated) {
             throw new Exception('Author not updated');
         }
-        return $updated;
+        return $this->findAuthorById($id);
     }
 
     public function deleteAuthor(int $id): bool

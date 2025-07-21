@@ -17,6 +17,7 @@ class BorrowingRequest extends BaseRequest
             'user_id' => 'required|exists:users,id',
             'book_id' => 'required|exists:books,id',
             'borrowed_at' => 'required|date',
+
             'returned_at' => 'nullable|date|after_or_equal:borrowed_at',
         ];
     }

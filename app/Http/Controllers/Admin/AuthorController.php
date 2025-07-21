@@ -42,7 +42,7 @@ class AuthorController extends Controller
     {
         try {
             $this->authorService->createAuthor($request->validated());
-            return redirect()->route('admin.pages.authors.index',[
+            return redirect()->route('admin.authors.index',[
                 'author' => $this->authorService->getAuthors()
             ])->with('success', 'Author created successfully');
         } catch (Throwable $th) {
@@ -64,7 +64,7 @@ class AuthorController extends Controller
     {
         try {
             $this->authorService->updateAuthor($id, $request->validated());
-            return redirect()->route('admin.pages.authors.index', [
+            return redirect()->route('admin.authors.index', [
                 'authors' => $this->authorService->getAuthors()
             ])->with('success', 'Author updated successfully');
         } catch (Throwable $th) {
@@ -76,7 +76,7 @@ class AuthorController extends Controller
     {
         try {
             $this->authorService->deleteAuthor($id);
-            return redirect()->route('admin.pages.authors.index', [
+            return redirect()->route('admin.authors.index', [
                 'authors' => $this->authorService->getAuthors()
             ])->with('success', 'Author deleted successfully');
         } catch (Throwable $th) {

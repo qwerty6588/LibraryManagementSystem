@@ -2,6 +2,18 @@
 @section('content')
     <h1>Borrowings</h1>
     <a href="{{ route('admin.borrowings.create') }}" class="btn btn-primary mb-3">Create Borrowing</a>
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <table class="table">
         <thead>
         <tr>

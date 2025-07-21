@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Collection;
 
-
 class BookRepository extends BaseRepository
 {
     public function getModel(): string
@@ -18,35 +17,19 @@ class BookRepository extends BaseRepository
         return $this->model->all();
     }
 
-
     public function findById(int $id): ?Book
     {
         return $this->model::find($id) ?: null;
     }
 
-    public function create(
-        string $title,
-        string $author_id,
-        string $category_id,
-        string $quantity,
-    ):? Book
+    public function create(array $data): ?Book
     {
-        return $this->model->create([
-            'title' => $title,
-            'author_id' => $author_id,
-            'category_id' => $category_id,
-            'quantity' => $quantity
-        ]);
+        return $this->model->create($data);
     }
 
-    public function update(Book $book, string $title, string $author_id, string $category_id, string $quantity): bool
+    public function update(Book $book, array $data): bool
     {
-        return $book->update([
-            'title' => $title,
-            'author_id' => $author_id,
-            'category_id' => $category_id,
-            'quantity' => $quantity
-        ]);
+        return $book->update($data);
     }
 
     public function delete(Book $book): bool

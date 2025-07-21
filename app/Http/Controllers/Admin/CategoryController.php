@@ -42,7 +42,7 @@ class CategoryController extends Controller
     {
         try {
             $this->categoryService->createCategory($request->validated());
-            return redirect()->route('admin.pages.categories.index', [
+            return redirect()->route('admin.categories.index', [
                 'categories' => $this->categoryService->getCategories()
             ])->with('success', 'Category created successfully');
         } catch (Throwable $th) {
@@ -64,7 +64,7 @@ class CategoryController extends Controller
     {
         try {
             $this->categoryService->updateCategory($id, $request->validated());
-            return redirect()->route('admin.pages.categories.index', [
+            return redirect()->route('admin.categories.index', [
                 'categories' => $this->categoryService->getCategories()
             ])->with('success', 'Category updated successfully');
         } catch (Throwable $th) {
@@ -76,7 +76,7 @@ class CategoryController extends Controller
     {
         try {
             $this->categoryService->deleteCategory($id);
-            return redirect()->route('admin.pages.categories.index', [
+            return redirect()->route('admin.categories.index', [
                 'categories' => $this->categoryService->getCategories()
             ])->with('success', 'Category deleted successfully');
         } catch (Throwable $th) {

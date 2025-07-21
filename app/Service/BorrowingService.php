@@ -37,7 +37,6 @@ class BorrowingService
             $data['user_id'],
             $data['book_id'],
             $data['borrowed_at'],
-            $data['due_date'],
             $data['returned_at']
         );
 
@@ -59,7 +58,6 @@ class BorrowingService
             $data['user_id'],
             $data['book_id'],
             $data['borrowed_at'],
-            $data['due_date'],
             $data['returned_at']
         );
         if (!$updated) {

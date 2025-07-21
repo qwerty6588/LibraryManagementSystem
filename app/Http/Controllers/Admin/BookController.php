@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookRequest;
+use App\Models\Author;
+use App\Models\Category;
 use App\Service\BookService;
 use App\Service\CategoryService;
 use App\Service\AuthorService;
@@ -31,7 +33,7 @@ class BookController extends Controller
         }
     }
 
-    public function create()
+    public function create(): View
     {
         try {
             $authors = $this->authorService->getAuthors();
@@ -60,30 +62,38 @@ class BookController extends Controller
 
     }
 
-    public function edit(int $id)
+    public function edit($id)
     {
-        try {
-            $book = $this->bookService->findBookById($id);
-            return view('admin.pages.books.edit', compact('book'));
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
+        $book = $this->bookService->findBookById($id);
+        $authors = $this->authorService->getAuthors();
+        $categories = $this->categoryService->getCategories();
+
+        return view('admin.pages.books.edit', compact('book', 'authors', 'categories'));
     }
 
 
-    public function update(BookRequest $request, int $id)
+
+
+    public function update(BookRequest $request, $id)
     {
-        try {
-            $this->bookService->updateBook($id, $request->validated());
-            $books = $this->bookService->getBooks();
-            return view('admin.pages.books.index', [
-                'books' => $books,
-                'success' => 'Book updated successfully',
-            ]);
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
+        $book = $this->bookService->findBookById($id);
+
+        $author = Author::firstOrCreate(['name' => $request->input('author_name')]);
+
+        $category = Category::firstOrCreate(['name' => $request->input('category_name')]);
+
+
+        $this->bookService->updateBook($id, [
+            'title' => $request->input('title'),
+            'author_id' => $author->id,
+            'category_id' => $category->id,
+            'description' => $request->input('description'),
+            'published_year' => $request->input('published_year'),
+        ]);
+
+        return redirect()->route('admin.books.index')->with('success', 'Книга успешно обновлена');
     }
+
 
 
     public function destroy(int $id)

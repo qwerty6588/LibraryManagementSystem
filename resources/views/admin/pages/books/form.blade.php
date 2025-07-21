@@ -22,6 +22,6 @@
 </div>
 
 <div class="mb-3">
-    <label>Published At</label>
+    <label>Published Atddddd</label>
     <input type="date" name="published_at" class="form-control" value="{{ old('published_at', $book->published_at ?? '') }}">
 </div>

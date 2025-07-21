@@ -2,11 +2,12 @@
 
 namespace App\Service;
 
-use App\Models\User;
-use App\Repository\UserRepository;
-use Illuminate\Database\Eloquent\Collection;
 use Exception;
+use App\Models\User;
+use App\Service\TelegramService;
+use App\Repository\UserRepository;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserService
 {
@@ -42,25 +43,44 @@ class UserService
         if (!$result) {
             throw new Exception('User not created');
         }
+
+        app(TelegramService::class)->sendMessage(
+            "✏️ Пользователь создан:\n" .
+            "🆔 id: ({$result->id})\n" .
+            "👤 name: ({$result->name})\n" .
+            "📧 email: ({$result->email})"
+        );
+
         return $result;
     }
 
     /**
      * @throws Exception
      */
-    public function updateUser(int $id, array $data): User
+    public function updateUser(int $id, array $data): bool
     {
-        $user = $this->findUserById($id);
-        $updated = $this->userRepository->update(
-            $user,
-            $data['name'],
-            $data['email'],
-            $data['password']
-        );
-        if (!$updated) {
-            throw new Exception('User not updated');
+        $user = User::findOrFail($id);
+
+        if (!empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
         }
-        return $this->findUserById($id);
+
+        $updated = $user->update($data);
+
+        if ($updated) {
+
+            app(TelegramService::class)->sendMessage(
+                "✏️ Пользователь обновлён:\n" .
+                "🆔 id: ({$user->id})\n" .
+                "👤 name: ({$user->name})\n" .
+                "📧 email: ({$user->email})"
+            );
+
+        }
+
+        return $updated;
     }
 
     /**
@@ -69,7 +89,23 @@ class UserService
     public function deleteUser(int $id): bool
     {
         $user = $this->findUserById($id);
-        return $this->userRepository->delete($user);
+        $name = $user->name;
+        $email = $user->email;
+
+        $deleted = $this->userRepository->delete($user);
+
+        if ($deleted) {
+
+            app(TelegramService::class)->sendMessage(
+                "✏️ Пользователь обновлён:\n" .
+                "🆔 id: ({$id})\n" .
+                "👤 name: ({$name})\n" .
+                "📧 email: ({$email})"
+            );
+
+        }
+
+        return $deleted;
     }
 
     /**

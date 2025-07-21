@@ -41,7 +41,7 @@ class UserController extends Controller
     {
         try {
             $this->userService->createUser($request->validated());
-            return redirect()->route('admin.pages.users.index', [
+            return redirect()->route('admin.users.index', [
                 'users' => $this->userService->getUsers()
             ])->with('success', 'User created successfully');
         } catch (Throwable $th) {
@@ -59,23 +59,41 @@ class UserController extends Controller
         }
     }
 
+
+    public function updateUser(int $id, array $data): User
+    {
+        $user = User::findOrFail($id);
+
+        // Если пароль не задан — не обновляем
+        if (empty($data['password'])) {
+            unset($data['password']);
+        } else {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        $user->update($data);
+
+        return $user;
+    }
     public function update(UserRequest $request, int $id): View|RedirectResponse
     {
         try {
             $this->userService->updateUser($id, $request->validated());
-            return redirect()->route('admin.pages.users.index', [
-                'users' => $this->userService->getUsers()
-            ])->with('success', 'User updated successfully');
+
+            return redirect()
+                ->route('admin.users.index')
+                ->with('success', 'User updated successfully');
         } catch (Throwable $th) {
             return $this->viewException($th);
         }
     }
 
+
     public function destroy(int $id): View|RedirectResponse
     {
         try {
             $this->userService->deleteUser($id);
-            return redirect()->route('admin.pages.users.index', [
+            return redirect()->route('admin.users.index', [
                 'users' => $this->userService->getUsers()
             ])->with('success', 'User deleted successfully');
         } catch (Throwable $th) {

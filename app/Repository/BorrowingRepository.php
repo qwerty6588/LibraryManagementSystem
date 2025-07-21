@@ -22,7 +22,6 @@ class BorrowingRepository extends BaseRepository
         string $user_id,
         string $book_id,
         string $borrowed_at,
-        string $due_date,
         string $returned_at
     ): ?Borrowing
     {
@@ -30,18 +29,17 @@ class BorrowingRepository extends BaseRepository
             'user_id' => $user_id,
             'book_id' => $book_id,
             'borrowed_at' => $borrowed_at,
-            'due_date' => $due_date,
+
             'returned_at' => $returned_at
         ]);
     }
 
-    public function update(Borrowing $borrowing, string $user_id, string $book_id, string $borrowed_at, string $due_date, string $returned_at): bool
+    public function update(Borrowing $borrowing, string $user_id, string $book_id, string $borrowed_at,string $returned_at): bool
     {
         return $borrowing->update([
             'user_id' => $user_id,
             'book_id' => $book_id,
             'borrowed_at' => $borrowed_at,
-            'due_date' => $due_date,
             'returned_at' => $returned_at
         ]);
     }
