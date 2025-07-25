@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Book;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -16,15 +17,18 @@ class TelegramEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $user;
+    public string $action;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(User $user, Book $book ,  string $action)
     {
+        $this->book = $book;
         $this->user = $user;
+        $this->action = $action;
     }
 
     /**

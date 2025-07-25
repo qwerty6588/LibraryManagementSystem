@@ -41,10 +41,14 @@ class UserService
             $data['email'],
             Hash::make($data['password']),
         );
+
         if (!$result) {
             throw new Exception('User not created');
         }
-        TelegramEvent::dispatch($result);
+
+
+        TelegramEvent::dispatch($result, 'created');
+
         return $result;
     }
 
@@ -64,11 +68,12 @@ class UserService
         $updated = $user->update($data);
 
         if ($updated) {
-            TelegramEvent::dispatch($updated);
+            TelegramEvent::dispatch($user, 'updated');
         }
 
         return $updated;
     }
+
 
     /**
      * @throws Exception
@@ -76,19 +81,17 @@ class UserService
     public function deleteUser(int $id): bool
     {
         $user = $this->findUserById($id);
-        $name = $user->name;
-        $email = $user->email;
 
         $deleted = $this->userRepository->delete($user);
 
         if ($deleted) {
-
-            TelegramEvent::dispatch($deleted);
-
+            TelegramEvent::dispatch($user, 'deleted');
         }
 
         return $deleted;
     }
+
+
 
     /**
      * @throws Exception

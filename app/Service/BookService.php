@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Events\TelegramEvent;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Category;
@@ -97,6 +98,9 @@ class BookService
             throw new Exception('Book not deleted');
         }
 
+        if ($deleted) {
+            TelegramEvent::dispatch($book, 'deleted');
+        }
         return true;
     }
 

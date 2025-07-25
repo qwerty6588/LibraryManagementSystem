@@ -59,22 +59,6 @@ class UserController extends Controller
         }
     }
 
-
-    public function updateUser(int $id, array $data): User
-    {
-        $user = User::findOrFail($id);
-
-        // Если пароль не задан — не обновляем
-        if (empty($data['password'])) {
-            unset($data['password']);
-        } else {
-            $data['password'] = Hash::make($data['password']);
-        }
-
-        $user->update($data);
-
-        return $user;
-    }
     public function update(UserRequest $request, int $id): View|RedirectResponse
     {
         try {

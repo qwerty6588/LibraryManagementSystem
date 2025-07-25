@@ -13,16 +13,24 @@ class TelegramService
         $this->telegram = new Telegram();
     }
 
-    public function send($message)
+    public function send(User $user, string $action)
     {
-        return $this->telegram->send($this->prepareMessage($message));
+        $message = $this->prepareMessage($user, $action);
+        return $this->telegram->send($message);
     }
 
-    protected function prepareMessage(User $user)
+    protected function prepareMessage(User $user, string $action): string
     {
-        return  "✏️ Пользователь создан:\n" .
-            "🆔 id: ({$user->id})\n" .
-            "👤 name: ({$user->name})\n" .
-            "📧 email: ({$user->email})";
+        $emoji = match ($action) {
+            'created' => '✅',
+            'updated' => '✏️',
+            'deleted' => '❌',
+            default   => 'ℹ️',
+        };
+
+        return "{$emoji} User {$action}:\n"
+            . "🆔 ID: {$user->id}\n"
+            . "👤 Name: {$user->name}\n"
+            . "📧 Email: {$user->email}";
     }
 }
