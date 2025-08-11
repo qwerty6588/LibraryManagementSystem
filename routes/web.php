@@ -29,3 +29,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('borrowings', BorrowingController::class);
     Route::resource('users', UserController::class);
 });
+
+Route::get('/books/all', [BookController::class, 'show'])->name('books.all');

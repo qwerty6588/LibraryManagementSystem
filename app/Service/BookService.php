@@ -19,6 +19,7 @@ class BookService
         $this->bookRepository = $bookRepository;
     }
 
+
     /**
      * @throws Exception
      */
@@ -29,6 +30,7 @@ class BookService
             throw new Exception('Books not found');
         }
         return $books;
+
     }
 
     /**
@@ -98,9 +100,7 @@ class BookService
             throw new Exception('Book not deleted');
         }
 
-        if ($deleted) {
-            TelegramEvent::dispatch($book, 'deleted');
-        }
+
         return true;
     }
 

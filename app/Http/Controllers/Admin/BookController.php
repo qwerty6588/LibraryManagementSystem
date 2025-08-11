@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookRequest;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Category;
 use App\Service\BookService;
 use App\Service\CategoryService;
@@ -57,10 +58,36 @@ class BookController extends Controller
         }
     }
 
-    public function show($id)
+    public function show()
     {
+        $books = Book::with(['author', 'category'])->get();
 
+        $customCovers = [
+            '1984' => '1984.jpg',
+            'Harry Potter' => 'harry_potter.jpg',
+            'The Shining' => 'the_shining.jpg',
+            'I, Robot' => 'i_robot.jpg',
+            'Pride and Prejudice' => 'pride_prejudice.jpg',
+        ];
+
+        $randomCovers = [
+            'random1.jpg', 'random2.jpg', 'random3.jpg', 'random4.jpg',
+        ];
+
+        foreach ($books as $book) {
+            if (array_key_exists($book->title, $customCovers)) {
+                $book->cover = $customCovers[$book->title];
+            } else {
+                $book->cover = $randomCovers[array_rand($randomCovers)];
+            }
+        }
+
+        return view('admin.pages.books.show', compact('books'));
     }
+
+
+
+
 
     public function edit($id)
     {

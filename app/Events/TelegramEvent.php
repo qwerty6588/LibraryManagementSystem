@@ -24,9 +24,8 @@ class TelegramEvent
      *
      * @return void
      */
-    public function __construct(User $user, Book $book ,  string $action)
+    public function __construct(User $user, string $action)
     {
-        $this->book = $book;
         $this->user = $user;
         $this->action = $action;
     }

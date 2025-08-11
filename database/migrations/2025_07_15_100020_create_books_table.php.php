@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('description');
             $table->integer('quantity')->default(1);
             $table->smallInteger('published_year')->nullable();
+            $table->string('image')->nullable();
+            $table->decimal('price', 8, 2)->nullable();
             $table->timestamps();
         });
     }
