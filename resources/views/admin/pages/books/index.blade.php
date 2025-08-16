@@ -68,15 +68,18 @@
             animation: rainbow-text 2s linear infinite, upPulse 2s ease-in-out infinite;
         }
 
+        .element {
+            border: 5px solid #2E9AFF;
+        }
 
     </style>
 
 
-    <h1 style="font-family: 'Curlz MT';  " class="anim-rainbow-upPulse">Books</h1>
+    <h1 style="font-family: 'Curlz MT';  " class="">Books</h1>
 
-    <a href="{{ route('admin.books.create') }}" class="<!--anim-leftPulse--> btn btn-primary mb-3" style="cursor: cell">Create Book</a>
+    <a href="{{ route('admin.books.create') }}" class="anim-leftPulse btn btn-primary mb-3" style="cursor: cell">Create Book</a>
 
-    <a href="{{ route('books.all') }}" class="btn btn-success mb-3 anim-rightPulse " >Show All Books</a>
+    <a href="{{ route('books.all') }}" class="btn btn-success mb-3 " >Show All Books</a>
 
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -90,7 +93,7 @@
         </div>
     @endif
 
-    <table class="table">
+    <table class="table table-bordered ">
         <thead>
         <tr>
             <th>ID</th>
