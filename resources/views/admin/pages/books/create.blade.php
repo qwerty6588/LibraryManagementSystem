@@ -30,7 +30,11 @@
 
             <div class="mb-3">
                 <label for="category_name" class="form-label">Category</label>
-                <input type="text" name="category_name" class="form-control" value="{{ old('category_name') }}" required>
+                <select name="category_name" class="form-control">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->name}}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="mb-3">
@@ -40,7 +44,7 @@
 
             <div class="mb-3">
                 <label for="published_year" class="form-label">Published year</label>
-                <input type="number" name="published_year" class="form-control" value="{{ old('published_year') }}" required>
+                <input type="date" name="published_year" class="form-control" value="{{ old('published_year') }}" required>
             </div>
 
             <button type="submit" class="btn btn-primary">Create</button>

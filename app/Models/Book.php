@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasTranslatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
+    use HasTranslatable;
 
     protected $fillable = [
         'title',
@@ -15,7 +17,13 @@ class Book extends Model
         'category_id',
         'description',
         'published_year',
-        'quantity'];
+        'quantity'
+    ];
+
+    protected array $translatable = [
+        'title',
+        'description',
+    ];
 
     public function author()
     {

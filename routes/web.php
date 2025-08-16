@@ -22,7 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'lang'])->group(function () {
     Route::resource('books', BookController::class);
     Route::resource('authors', AuthorController::class);
     Route::resource('categories', CategoryController::class);
@@ -31,3 +31,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 Route::get('/books/all', [BookController::class, 'show'])->name('books.all');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

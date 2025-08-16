@@ -6,11 +6,6 @@ namespace App\Http\Requests;
 
 class BookRequest extends BaseRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
@@ -18,7 +13,7 @@ class BookRequest extends BaseRequest
             'author_name' => 'required|string|max:255',
             'category_name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'published_year' => 'required|integer|min:1000|max:2100',
+            'published_year' => 'required|date_format:Y-m-d',
         ];
     }
 

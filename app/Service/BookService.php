@@ -6,7 +6,9 @@ use App\Events\TelegramEvent;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Category;
+use App\Repository\AuthorRepository;
 use App\Repository\BookRepository;
+use App\Repository\CategoryRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Exception;
 
@@ -14,9 +16,15 @@ class BookService
 {
     protected BookRepository $bookRepository;
 
-    public function __construct(BookRepository $bookRepository)
+    protected AuthorRepository $authorRepository;
+
+    protected CategoryRepository $categoryRepository;
+
+    public function __construct(BookRepository $bookRepository, AuthorRepository $authorRepository, CategoryRepository $categoryRepository)
     {
         $this->bookRepository = $bookRepository;
+        $this->authorRepository = $authorRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
 
@@ -26,7 +34,7 @@ class BookService
     public function getBooks(): Collection
     {
         $books = $this->bookRepository->getBooks();
-        if (empty($books) || $books->count() === 0) {
+        if (empty($books)) {
             throw new Exception('Books not found');
         }
         return $books;
@@ -45,7 +53,7 @@ class BookService
             }
         }
 
-        $author = Author::firstOrCreate(['name' => $data['author_name']]);
+        $author = $this->authorRepository->firstOrCreate(['name' => $data['author_name']]);
         $category = Category::firstOrCreate(['name' => $data['category_name']]);
 
         $bookData = [

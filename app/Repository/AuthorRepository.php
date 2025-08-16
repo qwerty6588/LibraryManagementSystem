@@ -40,4 +40,10 @@ class AuthorRepository extends BaseRepository
     {
         return $author->delete();
     }
+
+
+    public function firstOrCreate(array $data): Author
+    {
+        return $this->model->firstOrCreate($data);
+    }
 }

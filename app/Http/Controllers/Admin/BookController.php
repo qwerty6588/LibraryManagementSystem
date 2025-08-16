@@ -15,15 +15,22 @@ use Throwable;
 
 class BookController extends Controller
 {
+    /** @var BookService $bookService */
     private BookService $bookService;
+
+    /** @var AuthorService $authorService */
     private AuthorService $authorService;
+
+    /** @var CategoryService $categoryService */
     private CategoryService $categoryService;
+
     public function __construct(BookService $bookService, AuthorService $authorService, CategoryService $categoryService)
     {
         $this->categoryService = $categoryService;
         $this->bookService = $bookService;
         $this->authorService = $authorService;
     }
+
     public function index(): View
     {
         try {
@@ -84,10 +91,6 @@ class BookController extends Controller
 
         return view('admin.pages.books.show', compact('books'));
     }
-
-
-
-
 
     public function edit($id)
     {

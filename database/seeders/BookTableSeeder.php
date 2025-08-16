@@ -13,39 +13,79 @@ class BookTableSeeder extends Seeder
     {
         $books = [
             [
-                'title' => '1984',
+                'title' => json_encode([
+                    'uz'    => '1984',
+                    'ru'     => '1984',
+                    'en'     => '1984',
+                ]),
                 'author' => 'George Orwell',
                 'category' => 'Fiction',
                 'year' => 1949,
-                'description' => 'Dystopian novel about totalitarianism.'
+                'description' => json_encode([
+                    'en'    =>  'Dystopian novel about totalitarianism. en',
+                    'ru'    =>  'Dystopian novel about totalitarianism. ru',
+                    'uz' => 'Dystopian novel about totalitarianism. uz'
+                ])
             ],
             [
-                'title' => 'Harry Potter',
+                'title' => json_encode([
+                    'uz'    => 'Harry Potter uz',
+                    'ru'     => 'Harry Potter ru',
+                    'en'     => 'Harry Potter, en',
+                ]),
                 'author' => 'J.K. Rowling',
                 'category' => 'Fantasy',
                 'year' => 1997,
-                'description' => 'A young wizard attends a magical school.'
+                'description' => json_encode([
+                    'en'    =>  'Harry Potter description EN',
+                    'ru'    =>  'Harry Potter description ru',
+                    'uz' => 'Harry Potter description uz',
+                ])
             ],
             [
-                'title' => 'The Shining',
+                'title' => json_encode([
+                    'uz' => 'The Shining uz',
+                    'ru' => 'The Shining ru',
+                    'en' => 'The Shining en',
+                ]),
                 'author' => 'Stephen King',
                 'category' => 'Horror',
                 'year' => 1977,
-                'description' => 'A haunted hotel drives its caretaker insane.'
+                'description' => json_encode([
+                    'uz' => 'A haunted hotel drives its caretaker insane .uz',
+                    'ru' => 'A haunted hotel drives its caretaker insane  ru',
+                    'en' => 'A haunted hotel drives its caretaker insane .en',
+                ])
             ],
             [
-                'title' => 'I, Robot',
+                'title' => json_encode([
+                    'uz' => 'The Shining uz',
+                    'ru' => 'The Shining ru',
+                    'en' => 'The Shining en',
+                ]),
                 'author' => 'Isaac Asimov',
                 'category' => 'Science',
                 'year' => 1950,
-                'description' => 'A collection of short stories about robots.'
+                'description' => json_encode([
+                    'en' => 'The Shining description EN',
+                    'ru' => 'The Shining description ru',
+                    'uz' => 'The Shining description uz',
+                ])
             ],
             [
-                'title' => 'Pride and Prejudice',
+                'title' => json_encode([
+                    'uz' => 'Pride and Prejudice uz',
+                    'ru' => 'Pride and Prejudice ru',
+                    'en' => 'Pride and Prejudice en',
+                ]),
                 'author' => 'Jane Austen',
                 'category' => 'Biography',
                 'year' => 1813,
-                'description' => 'A romantic novel set in early 19th-century England.'
+                'description' => json_encode([
+                    'en' => 'A romantic novel set in early 19th-century England. en',
+                    'uz' => 'A romantic novel set in early 19th-century England. uz',
+                    'ru' => 'A romantic novel set in early 19th-century England. ru',
+                ])
             ],
         ];
 
