@@ -33,6 +33,13 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('admin.categories.index') }}">Categories</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('admin.borrowings.index') }}">Borrowings</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('admin.users.index') }}">Users</a></li>
+                <li class="nav-item">
+                    <ul>
+                        <li class="nav-item"><a class="nav-link" href="?lang=en">En</a></li>
+                        <li class="nav-item"><a class="nav-link" href="?lang=uz">Uz</a></li>
+                        <li class="nav-item"><a class="nav-link" href="?lang=ru">Ru</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
