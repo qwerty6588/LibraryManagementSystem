@@ -63,6 +63,10 @@ trait HasTranslatable
     {
         $key = $this->getAttributeValue($key);
 
+        if (is_string($key)) {
+            $key = json_decode($key, true);
+        }
+
         if (!is_array($key)) {
             return $key;
         }
