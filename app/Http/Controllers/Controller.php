@@ -16,7 +16,7 @@ class Controller extends BaseController
     {
         /** @todo Save or notify the exception */
         return view('admin.pages.exception.index', [
-            'code'  => $exception->getCode(),
+            'code' => $exception->getCode(),
             'message' => $exception->getMessage(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine()

@@ -1,6 +1,9 @@
 @extends('layouts.admin')
 @section('content')
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+
     <style>
         @keyframes rainbow-text {
             0% { color: red; }
@@ -47,6 +50,9 @@
         @keyframes rightPulse {
             5%, 70%, 70% { transform: translateX(0); }
             40% { transform: translateX(100px); }
+            50% { transform: translateX(-100px); }
+            40% { transform: translateY(100px); }
+            50% { transform: translateY(-100px); }
         }
 
         .anim-rightPulse {
@@ -65,9 +71,10 @@
 
     </style>
 
-    <h1 style="font-family: fantasy ;" class="anim-rainbow-upPulse">Books</h1>
 
-    <a href="{{ route('admin.books.create') }}" class="anim-leftPulse btn btn-primary mb-3" style="cursor: cell">Create Book</a>
+    <h1 style="font-family: 'Curlz MT';  " class="anim-rainbow-upPulse">Books</h1>
+
+    <a href="{{ route('admin.books.create') }}" class="<!--anim-leftPulse--> btn btn-primary mb-3" style="cursor: cell">Create Book</a>
 
     <a href="{{ route('books.all') }}" class="btn btn-success mb-3 anim-rightPulse " >Show All Books</a>
 
@@ -91,7 +98,7 @@
             <th>Author</th>
             <th>Category</th>
             <th>Description</th>
-            <th>Published At</th>
+            <th >Published At</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -103,7 +110,7 @@
                 <td>{{ $book->author->name ?? '-' }}</td>
                 <td>{{ $book->category->name ?? '-' }}</td>
                 <td>{{ Str::limit($book->description, 15, '...') }}</td>
-                <td>{{ $book->published_year }}</td>
+                <td  style="font-family: 'Abril Fatface', serif;" >{{ $book->published_year }}</td>
                 <td>
 
 
