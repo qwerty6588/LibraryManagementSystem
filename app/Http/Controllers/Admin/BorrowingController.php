@@ -15,9 +15,9 @@ use Throwable;
 
 class BorrowingController extends Controller
 {
-    protected BorrowingService $borrowingService;
-    protected UserService $userService;
-    protected BookService $bookService;
+    private BorrowingService $borrowingService;
+    private UserService $userService;
+    private BookService $bookService;
 
     public function __construct(
         BorrowingService $borrowingService,
@@ -29,79 +29,56 @@ class BorrowingController extends Controller
         $this->bookService = $bookService;
     }
 
-
-    public function index(): View
+    public function index()
     {
-        try {
             $borrowings = $this->borrowingService->getBorrowings();
             return view('admin.pages.borrowings.index', compact('borrowings'));
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
     }
 
-    public function create(): View
+    public function create()
     {
-        try {
             $users = User::all();
             $books = Book::all();
             return view('admin.pages.borrowings.create', compact('users', 'books'));
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
     }
 
-
-    public function store(BorrowingRequest $request): View|RedirectResponse
+    public function store(BorrowingRequest $request):RedirectResponse
     {
-        try {
+
             $this->borrowingService->createBorrowing($request->validated());
             return redirect()->route('admin.users.index', [
                 'borrowings' => $this->borrowingService->getBorrowings()
             ])->with('success', 'Borrowing created successfully');
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
+
     }
 
 
-    public function edit(int $id): View
+    public function edit(int $id)
     {
-        try {
+
             $borrowing = $this->borrowingService->findBorrowingById($id);
             $users = $this->userService->getUsers();
             $books = $this->bookService->getBooks();
 
             return view('admin.pages.borrowings.edit', compact('borrowing', 'users', 'books'));
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
+
     }
 
-
-    public function update(BorrowingRequest $request, int $id): View|RedirectResponse
+    public function update(BorrowingRequest $request, int $id):RedirectResponse
     {
-        try {
-
             $this->borrowingService->updateBorrowing($id, $request->validated());
             return redirect()->route('admin.borrowings.index', [
                 'borrowings' => $this->borrowingService->getBorrowings()
             ])->with('success', 'Borrowing updated successfully');
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
     }
 
-    public function destroy(int $id): View|RedirectResponse
+    public function destroy(int $id):RedirectResponse
     {
-        try {
+
             $this->borrowingService->deleteBorrowing($id);
             return redirect()->route('admin.borrowings.index', [
                 'borrowings' => $this->borrowingService->getBorrowings()
             ])->with('success', 'User deleted successfully');
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
     }
 
 }

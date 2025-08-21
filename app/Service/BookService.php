@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Events\TelegramEvent;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Category;
@@ -15,30 +14,30 @@ use Exception;
 class BookService
 {
     protected BookRepository $bookRepository;
-
     protected AuthorRepository $authorRepository;
-
     protected CategoryRepository $categoryRepository;
 
-    public function __construct(BookRepository $bookRepository, AuthorRepository $authorRepository, CategoryRepository $categoryRepository)
-    {
+    public function __construct(
+        BookRepository $bookRepository,
+        AuthorRepository $authorRepository,
+        CategoryRepository $categoryRepository
+    ) {
         $this->bookRepository = $bookRepository;
         $this->authorRepository = $authorRepository;
         $this->categoryRepository = $categoryRepository;
     }
 
-
     /**
+     * @return Collection<int, Book>
      * @throws Exception
      */
     public function getBooks(): Collection
     {
         $books = $this->bookRepository->getBooks();
-        if (empty($books)) {
+        if ($books->isEmpty()) {
             throw new Exception('Books not found');
         }
         return $books;
-
     }
 
     /**
@@ -53,8 +52,15 @@ class BookService
             }
         }
 
-        $author = $this->authorRepository->firstOrCreate(['name' => $data['author_name']]);
-        $category = Category::firstOrCreate(['name' => $data['category_name']]);
+        $author = $this->authorRepository->findByName($data['author_name']);
+        if (!$author) {
+            throw new Exception('Author not found');
+        }
+
+        $category = $this->categoryRepository->findByName($data['category_name']);
+        if (!$category) {
+            throw new Exception('Category not found');
+        }
 
         $bookData = [
             'title' => $data['title'],
@@ -107,7 +113,6 @@ class BookService
         if (!$deleted) {
             throw new Exception('Book not deleted');
         }
-
 
         return true;
     }

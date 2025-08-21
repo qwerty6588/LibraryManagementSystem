@@ -13,6 +13,17 @@ use App\Service\AuthorService;
 use Illuminate\View\View;
 use Throwable;
 
+/**
+ * @property string $title
+ * @property string|null $cover
+ * @property string|null $description
+ * @property int|null $published_year
+ * @property int $author_id
+ * @property int $category_id
+ *
+ * @property \App\Models\Author $author
+ * @property \App\Models\Category $category
+ */
 class BookController extends Controller
 {
     /** @var BookService $bookService */
@@ -31,42 +42,38 @@ class BookController extends Controller
         $this->authorService = $authorService;
     }
 
-    public function index(): View
+
+    public function index()
     {
-        try {
-            $books = $this->bookService->getBooks();
+            $books = Book::all();
             return view('admin.pages.books.index', compact('books'));
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
     }
 
-    public function create(): View
+
+    public function create()
     {
-        try {
             $authors = $this->authorService->getAuthors();
             $categories = $this->categoryService->getCategories();
             return view('admin.pages.books.create', compact('authors', 'categories'));
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
     }
+
 
     public function store(BookRequest $request)
     {
-        try {
             $this->bookService->createBook($request->validated());
             $book = $this->bookService->getBooks();
             return view('admin.pages.books.index' ,[
                 'books' => $book
             ])->with('success', 'Book created successfully');
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
     }
 
+
+    /**
+     * Show all books with covers.
+     */
     public function show()
     {
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Book> $books */
         $books = Book::with(['author', 'category'])->get();
 
         $customCovers = [
@@ -81,6 +88,7 @@ class BookController extends Controller
             'random1.jpg', 'random2.jpg', 'random3.jpg', 'random4.jpg',
         ];
 
+        /** @var Book $book */
         foreach ($books as $book) {
             if (array_key_exists($book->title, $customCovers)) {
                 $book->cover = $customCovers[$book->title];
@@ -102,41 +110,35 @@ class BookController extends Controller
     }
 
 
-
-
     public function update(BookRequest $request, $id)
     {
-        $book = $this->bookService->findBookById($id);
 
-        $author = Author::firstOrCreate(['name' => $request->input('author_name')]);
+            $book = $this->bookService->findBookById($id);
 
-        $category = Category::firstOrCreate(['name' => $request->input('category_name')]);
+            $authorId = $request->input('author_id');
+            $categoryId = $request->input('category_id');
 
+            $this->bookService->updateBook($id, [
+                'title' => $request->input('title'),
+                'author_id' => $authorId,
+                'category_id' => $categoryId,
+                'description' => $request->input('description'),
+                'published_year' => $request->input('published_year'),
+            ]);
 
-        $this->bookService->updateBook($id, [
-            'title' => $request->input('title'),
-            'author_id' => $author->id,
-            'category_id' => $category->id,
-            'description' => $request->input('description'),
-            'published_year' => $request->input('published_year'),
-        ]);
+            return redirect()->route('admin.books.index')
+                ->with('success', 'Книга успешно обновлена');
 
-        return redirect()->route('admin.books.index')->with('success', 'Книга успешно обновлена');
     }
-
-
 
     public function destroy(int $id)
     {
-        try {
             $this->bookService->deleteBook($id);
             $books = $this->bookService->getBooks();
             return view('admin.pages.books.index', [
                 'books' => $books,
                 'success' => 'Book deleted successfully',
             ]);
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
     }
+
 }

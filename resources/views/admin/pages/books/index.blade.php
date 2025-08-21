@@ -2,9 +2,37 @@
 @section('content')
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-
+    <link rel="stylesheet" href="https://phpstan.org/blog.c5a7da80.css">
     <style>
+        /* Glare Hover Effect */
+        .glare-hover {
+            position: relative;
+            overflow: hidden;
+        }
+        .glare-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: skewX(-25deg);
+            transition: transform 0.7s ease-out, left 0.7s ease-out;
+        }
+        .glare-hover:hover::before {
+            left: 125%;
+            transform: skewX(-25deg) translateX(0);
+        }
+
+        /* Доп. стили для кнопок (optional) */
+        .btn.glare-hover {
+            color: #fff;
+            position: relative;
+        }
+
         @keyframes rainbow-text {
             0% { color: red; }
             20% { color: orange; }
@@ -75,12 +103,18 @@
     </style>
 
 
+
+
     <h1 style="font-family: 'Curlz MT';  " class="">Books</h1>
 
-    <a href="{{ route('admin.books.create') }}" class="anim-leftPulse btn btn-primary mb-3" style="cursor: cell">Create Book</a>
-
-    <a href="{{ route('books.all') }}" class="btn btn-success mb-3 " >Show All Books</a>
-
+    <div class="mb-3">
+        <a href="{{ route('admin.books.create') }}" class="btn btn-primary glare-hover" style="cursor: cell">
+            Create Book
+        </a>
+        <a href="{{ route('books.all') }}" class="btn btn-success glare-hover">
+            Show All Books
+        </a>
+    </div>
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -101,7 +135,8 @@
             <th>Author</th>
             <th>Category</th>
             <th>Description</th>
-            <th >Published At</th>
+            <th>Published At</th>
+            <th>Price</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -113,12 +148,13 @@
                 <td>{{ $book->author->name ?? '-' }}</td>
                 <td>{{ $book->category->name ?? '-' }}</td>
                 <td>{{ Str::limit($book->description, 15, '...') }}</td>
-                <td  style="font-family: 'Abril Fatface', serif;" >{{ $book->published_year }}</td>
+                <td style="font-family: 'Abril Fatface', serif;" >{{ $book->published_year }}</td>
+                <td style="font-family: fantasy ">{{ $book->price ?? '-' }}</td>
                 <td>
 
 
-                    <a href="{{ route('admin.books.edit', $book->id) }}"
-                       class="btn btn-warning btn-sm anim-border-pulse ">Edit</a>
+                           <a href="{{ route('admin.books.edit', $book->id) }}"
+                       class="btn btn-warning btn-sm  anim-border-pulse ">Edit</a>
 
                     <form action="{{ route('admin.books.destroy', $book->id) }}" method="POST" style="display:inline-block">
                         @csrf

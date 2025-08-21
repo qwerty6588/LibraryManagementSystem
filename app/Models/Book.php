@@ -2,14 +2,26 @@
 
 namespace App\Models;
 
-use App\Traits\HasTranslatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\HasTranslatable;
 
+
+/**
+ * App\Models\Book
+ * @property int $id
+ * @property string $title
+ * @property string $author
+ * @property float $price
+ * @property string $cover
+ * @property int $author_id
+ * @property int $category_id
+ * @method static \Illuminate\Database\Eloquent\Builder|Book create(array $attributes = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Book where($column, $operator = null, $value = null, $boolean = 'and')
+ */
 class Book extends Model
 {
-    use HasTranslatable;
+    use HasFactory, HasTranslatable;
 
     protected $fillable = [
         'title',
@@ -17,7 +29,8 @@ class Book extends Model
         'category_id',
         'description',
         'published_year',
-        'quantity'
+        'quantity',
+        'price',
     ];
 
     protected array $translatable = [

@@ -17,7 +17,7 @@ class AuthorRepository extends BaseRepository
         return $this->model->all();
     }
 
-    public function findById(int $id)
+    public function findByName(int $id)
     {
         return $this->model::find($id) ?: null;
     }
