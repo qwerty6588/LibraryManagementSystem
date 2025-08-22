@@ -19,68 +19,52 @@ class AuthorController extends Controller
         $this->authorService = $authorService;
     }
 
-    public function index(): View
+    public function index()
     {
-        try {
             $authors = $this->authorService->getAuthors();
             return view('admin.pages.authors.index', compact('authors'));
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
     }
 
-    public function create(): View
+    public function create()
     {
-        try {
             return view('admin.pages.authors.create');
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
     }
 
-    public function store(AuthorRequest $request):  View|RedirectResponse
+    public function store(AuthorRequest $request):RedirectResponse
     {
-        try {
+
             $this->authorService->createAuthor($request->validated());
             return redirect()->route('admin.authors.index',[
                 'author' => $this->authorService->getAuthors()
             ])->with('success', 'Author created successfully');
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
+
     }
 
-    public function edit(int $id): View
+    public function edit(int $id)
     {
-        try {
+
             $author = $this->authorService->findAuthorById($id);
             return view('admin.pages.authors.edit', compact('author'));
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
+
     }
 
-    public function update(AuthorRequest $request, int $id): View|RedirectResponse
+    public function update(AuthorRequest $request, int $id):RedirectResponse
     {
-        try {
+
             $this->authorService->updateAuthor($id, $request->validated());
             return redirect()->route('admin.authors.index', [
                 'authors' => $this->authorService->getAuthors()
             ])->with('success', 'Author updated successfully');
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
+
     }
 
-    public function destroy(int $id): View|RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
-        try {
+
             $this->authorService->deleteAuthor($id);
             return redirect()->route('admin.authors.index', [
                 'authors' => $this->authorService->getAuthors()
             ])->with('success', 'Author deleted successfully');
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
+
     }
 }
