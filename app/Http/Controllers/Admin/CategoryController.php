@@ -18,69 +18,53 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function index(): View
+    public function index()
     {
-        try {
+
             $categories = $this->categoryService->getCategories();
             return view('admin.pages.categories.index', compact('categories'));
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
+
     }
 
 
-    public function create(): View
+    public function create()
     {
-        try {
             return view('admin.pages.categories.create');
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
     }
 
-    public function store(CategoryRequest $request): View|RedirectResponse
+    public function store(CategoryRequest $request): RedirectResponse
     {
-        try {
+
             $this->categoryService->createCategory($request->validated());
             return redirect()->route('admin.categories.index', [
                 'categories' => $this->categoryService->getCategories()
             ])->with('success', 'Category created successfully');
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
+
     }
 
-    public function edit(int $id): View|RedirectResponse
+    public function edit(int $id)
     {
-        try {
+
             $category = $this->categoryService->findCategoryById($id);
             return view('admin.pages.categories.edit', compact('category'));
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
+
     }
 
-    public function update(CategoryRequest $request, int $id): View|RedirectResponse
+    public function update(CategoryRequest $request, int $id): RedirectResponse
     {
-        try {
+
             $this->categoryService->updateCategory($id, $request->validated());
             return redirect()->route('admin.categories.index', [
                 'categories' => $this->categoryService->getCategories()
             ])->with('success', 'Category updated successfully');
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
+
     }
 
-    public function destroy(int $id): View|RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
-        try {
             $this->categoryService->deleteCategory($id);
             return redirect()->route('admin.categories.index', [
                 'categories' => $this->categoryService->getCategories()
             ])->with('success', 'Category deleted successfully');
-        } catch (Throwable $th) {
-            return $this->viewException($th);
-        }
     }
 }

@@ -15,21 +15,19 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->json('title');
             $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('category_id');
             $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->string('description');
+            $table->json('description');
             $table->integer('quantity')->default(1);
-            $table->smallInteger('published_year')->nullable();
+            $table->integer('published_year')->nullable();
             $table->string('image')->nullable();
-            $table->decimal('price', 8, 2)->nullable();
+            $table->string('price')->nullable();
             $table->timestamps();
         });
     }
-
-
     /**
      * Reverse the migrations.
      *

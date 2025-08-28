@@ -4,12 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\HasTranslatable;
 
+/**
+ * App\Models\Author
+ * @property int $id
+ * @property string $name
+ * @method static \Illuminate\Database\Eloquent\Builder|Author create(array $attributes = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Author where($column, $operator = null, $value = null, $boolean = 'and')
+ */
 class Author extends Model
 {
+    use HasFactory, HasTranslatable;
 
     protected $fillable = ['name'];
+
+    protected array $translatable = [
+        'name',
+    ];
 
     public function books()
     {

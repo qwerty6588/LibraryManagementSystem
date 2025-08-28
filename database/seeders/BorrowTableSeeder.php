@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Borrowing;
+use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Book;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Carbon;
+use App\Models\Borrowing;
 
 class BorrowTableSeeder extends Seeder
 {
@@ -16,15 +15,16 @@ class BorrowTableSeeder extends Seeder
         $books = Book::all();
 
         foreach ($users as $user) {
-            foreach ($books->random(2) as $book) {
+            $randomBooks = $books->random(min(2, $books->count()));
+
+            foreach ($randomBooks as $book) {
                 Borrowing::create([
-                    'user_id' => 1,
-                    'book_id' => 2,
-                    'borrowed_at' => now()->subDays(16),
-                    'returned_at' => now(),
+                    'user_id'     => $user->id,
+                    'book_id'     => $book->id,
+                    'borrowed_at' => now()->subDays(rand(5, 30)),
+                    'returned_at' => rand(0, 1) ? now() : null,
                 ]);
             }
         }
     }
 }
-

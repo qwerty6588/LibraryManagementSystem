@@ -61,7 +61,7 @@ class CategoryService
 
     public function findCategoryById(int $id): Category
     {
-        $category = $this->categoryRepository->findById($id);
+        $category = $this->categoryRepository->findByName($id);
         if (!$category) {
             throw new Exception('Category not found');
         }
