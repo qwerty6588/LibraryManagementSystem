@@ -14,13 +14,16 @@ use Illuminate\View\View;
 use Throwable;
 
 /**
- * @property string $title
- * @property string|null $cover
- * @property string|null $description
- * @property int|null $published_year
+ * @property int $id
+ * @property array $title
+ * @property array $description
  * @property int $author_id
  * @property int $category_id
- *
+ * @property int $quantity
+ * @property int|null $published_year
+ * @property string|null $image
+ * @property string|null $price
+ * @property string|null $cover
  * @property \App\Models\Author $author
  * @property \App\Models\Category $category
  */

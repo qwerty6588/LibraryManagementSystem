@@ -137,6 +137,7 @@
             <th>Description</th>
             <th>Published At</th>
             <th>Price</th>
+            <th>Quantity</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -150,12 +151,9 @@
                 <td>{{ Str::limit($book->description, 15, '...') }}</td>
                 <td style="font-family: 'Abril Fatface', serif;" >{{ $book->published_year }}</td>
                 <td style="font-family: fantasy ">{{ $book->price ?? '-' }}</td>
+                <td style="font-family: fantasy ">{{ $book->quantity ?? '-' }}</td>
                 <td>
-
-
-                           <a href="{{ route('admin.books.edit', $book->id) }}"
-                       class="btn btn-warning btn-sm  anim-border-pulse ">Edit</a>
-
+                    <a href="{{ route('admin.books.edit', $book->id) }}" class="btn btn-warning btn-sm  anim-border-pulse ">Edit</a>
                     <form action="{{ route('admin.books.destroy', $book->id) }}" method="POST" style="display:inline-block">
                         @csrf
                         @method('DELETE')

@@ -47,7 +47,6 @@
             animation: glitch-anim 0.8s infinite linear alternate-reverse;
         }
 
-
         @keyframes glitch-anim {
             0% { clip-path: inset(10% 0 50% 0); }
             25% { clip-path: inset(40% 0 30% 0); }
@@ -100,21 +99,16 @@
 <div class="d-flex">
     <!-- Sidebar -->
     <nav class="sidebar d-flex flex-column p-3">
+
+        <!-- Логотип -->
         <a class="glitch mb-4 text-decoration-none" data-text="Library Admin" href="{{ route('admin.books.index') }}">
             Library Admin
         </a>
 
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li><a class="nav-link" href="{{ route('admin.books.index') }}">📚 Books</a></li>
-            <li><a class="nav-link" href="{{ route('admin.authors.index') }}">✍ Authors</a></li>
-            <li><a class="nav-link" href="{{ route('admin.categories.index') }}">📂Categories</a></li>
-            <li><a class="nav-link" href="{{ route('admin.borrowings.index') }}">📑 Borrowings</a></li>
-            <li><a class="nav-link" href="{{ route('admin.users.index') }}">👤Users</a></li>
-        </ul>
-
-        <div class="mt-auto">
+        <!-- User + Language dropdowns (под логотипом) -->
+        <div class="mb-4">
             @auth
-                <div class="dropdown">
+                <div class="dropdown mb-2">
                     <a class="d-block text-white text-decoration-none dropdown-toggle" href="#" id="userDropdown" data-bs-toggle="dropdown">
                         👤 {{ Auth::user()->name ?? 'User' }}
                     </a>
@@ -129,7 +123,7 @@
                 </div>
             @endauth
 
-            <div class="dropdown mt-3">
+            <div class="dropdown">
                 <a class="d-block text-white text-decoration-none dropdown-toggle" href="#" id="langDropdown" data-bs-toggle="dropdown">
                     🌐 {{ strtoupper(app()->getLocale()) }}
                 </a>
@@ -140,12 +134,20 @@
                 </ul>
             </div>
         </div>
+
+        <!-- Навигация -->
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li><a class="nav-link" href="{{ route('admin.books.index') }}">📚 Books</a></li>
+            <li><a class="nav-link" href="{{ route('admin.authors.index') }}">✍ Authors</a></li>
+            <li><a class="nav-link" href="{{ route('admin.categories.index') }}">📂 Categories</a></li>
+            <li><a class="nav-link" href="{{ route('admin.borrowings.index') }}">📑 Borrowings</a></li>
+            <li><a class="nav-link" href="{{ route('admin.users.index') }}">👤 Users</a></li>
+        </ul>
     </nav>
 
     <!-- Main content -->
     <div class="content-wrapper flex-grow-1">
         @yield('content')
-
     </div>
 </div>
 

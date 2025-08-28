@@ -22,14 +22,12 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->json('description');
             $table->integer('quantity')->default(1);
-            $table->smallInteger('published_year')->nullable();
+            $table->integer('published_year')->nullable();
             $table->string('image')->nullable();
-            $table->decimal('price', 8, 2)->nullable();
+            $table->string('price')->nullable();
             $table->timestamps();
         });
     }
-
-
     /**
      * Reverse the migrations.
      *

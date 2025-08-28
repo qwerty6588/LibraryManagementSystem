@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @section('content')
     <style>
@@ -30,12 +30,13 @@
                             <p class="card-text mb-1"><strong>Author:</strong> {{ $book->author->name ?? '-' }}</p>
                             <p class="card-text mb-1"><strong>Category:</strong> {{ $book->category->name ?? '-' }}</p>
                             <p class="card-text mb-1"><strong>Year:</strong> {{ $book->published_year }}</p>
-                            <p class="card-text mb-3"><strong>Price:</strong> ${{ number_format($book->price, 2) }}</p>
+                            <p class="card-text mb-3"><strong>Price:</strong>{{ number_format($book->price, 2) }} $ </p>
+                            <p class="card-text mb-3"><strong>Quantity:</strong>{{$book->quantity ?? '-'}}</p>
 
-                            <form action="{{--{{/* route('cart.add', $book->id)*/ }}--}}" method="POST" class="mt-auto">
+                            <a href="{{ route('purchase.create', $book->id) }}" class="btn btn-success w-100">
                                 @csrf
-                                <button type="submit" class="btn btn-primary w-100">Buy Now</button>
-                            </form>
+                                <button type="submit" class="btn btn-success w-100">Buy Now</button>
+                            </a>
                         </div>
                     </div>
                 </div>

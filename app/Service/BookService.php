@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Category;
+use App\Models\Purchase;
 use App\Repository\AuthorRepository;
 use App\Repository\BookRepository;
 use App\Repository\CategoryRepository;
@@ -52,12 +53,12 @@ class BookService
             }
         }
 
-        $author = $this->authorRepository->findByName($data['author_name']);
+        $author = $this->authorRepository->findByName($data['author_id']);
         if (!$author) {
             throw new Exception('Author not found');
         }
 
-        $category = $this->categoryRepository->findByName($data['category_name']);
+        $category = $this->categoryRepository->findByName($data['category_id']);
         if (!$category) {
             throw new Exception('Category not found');
         }
@@ -126,6 +127,28 @@ class BookService
         if (!$book) {
             throw new Exception('Book not found');
         }
+        return $book;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function purchaseBook(int $id): Book
+    {
+        $book = $this->findBookById($id);
+
+        if ($book->quantity < 1) {
+            throw new Exception('This book is out of stock');
+        }
+
+        $book->quantity = $book->quantity - 1;
+
+        $updated = $this->bookRepository->update($book, ['quantity' => $book->quantity]);
+
+        if (!$updated) {
+            throw new Exception('Purchase failed');
+        }
+
         return $book;
     }
 }
