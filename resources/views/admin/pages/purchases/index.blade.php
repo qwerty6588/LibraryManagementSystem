@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
     <h1>Purchase</h1>
-    <a href="{{ route('admin.purchases.create') }}" class="btn btn-primary mb-3">Create Purchase</a>
+    <a href="{{ route('books.all') }}" class="btn btn-primary mb-3">Create Purchase</a>
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}

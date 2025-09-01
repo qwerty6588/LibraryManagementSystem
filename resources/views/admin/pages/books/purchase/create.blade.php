@@ -7,18 +7,18 @@
         <form action="{{ route('purchase.store', $book->id) }}" method="POST">
             @csrf
             <div class="row">
-                <!-- Левая часть (форма) -->
+
                 <div class="col-lg-8">
                     <div class="card shadow-sm mb-4">
                         <div class="card-body p-4">
 
-                            <!-- Количество -->
+
                             <div class="mb-3">
                                 <label class="form-label">Количество книг</label>
                                 <input type="number" name="quantity" value="1" min="1" class="form-control" style="max-width: 120px;">
                             </div>
 
-                            <!-- Способы оплаты -->
+
                             <h5 class="mb-3 fw-semibold">Способ оплаты</h5>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="payment_method" value="card" id="pay1" checked>
@@ -37,7 +37,7 @@
                                 <label class="form-check-label" for="pay4">Оплата при получении</label>
                             </div>
 
-                            <!-- Данные карты -->
+
                             <div class="mt-3">
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="radio" name="card_choice" id="method1" value="card" checked>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
 
-                <!-- Правая часть (детали оплаты) -->
+
                 <div class="col-lg-4">
                     <div class="card border-primary">
                         <div class="card-header bg-primary text-white fw-bold text-center">Детали оплаты</div>
@@ -81,7 +81,7 @@
                         </div>
                     </div>
                 </div>
-            </div> <!-- row -->
+            </div>
         </form>
     </div>
 

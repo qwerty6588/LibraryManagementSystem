@@ -89,6 +89,7 @@
                                 <h5 class="card-title">{{ $book->title }}</h5>
                                 <p class="card-text"><strong>Author:</strong> {{ $book->author->name ?? '-' }}</p>
                                 <p class="card-text"><strong>Category:</strong> {{ $book->category->name ?? '-' }}</p>
+                                <p class="card-text"><strong>Description:</strong> {{ Str::limit($book->description, 45, '...') }}</p>
                                 <p class="card-text"><strong>Year:</strong> {{ $book->published_year }}</p>
                                 <p class="card-text price-tag">{{ number_format($book->price, 2) }} $</p>
                                 <p class="card-text"><strong>Quantity:</strong> {{ $book->quantity ?? '-' }}</p>
