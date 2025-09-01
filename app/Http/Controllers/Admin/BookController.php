@@ -63,12 +63,22 @@ class BookController extends Controller
 
     public function store(BookRequest $request)
     {
-            $this->bookService->createBook($request->validated());
-            $book = $this->bookService->getBooks();
-            return view('admin.pages.books.index' ,[
-                'books' => $book
-            ])->with('success', 'Book created successfully');
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('books', 'public');
+            $data['image'] = $path;
+        }
+
+        $this->bookService->createBook($data);
+
+        $books = $this->bookService->getBooks();
+
+        return view('admin.pages.books.index', [
+            'books' => $books
+        ])->with('success', 'Book created successfully');
     }
+
 
 
     /**
@@ -87,21 +97,16 @@ class BookController extends Controller
             'Pride and Prejudice' => 'pride_prejudice.jpg',
         ];
 
-        $randomCovers = [
-            'random1.jpg', 'random2.jpg', 'random3.jpg', 'random4.jpg',
-        ];
-
         /** @var Book $book */
         foreach ($books as $book) {
-            if (array_key_exists($book->title, $customCovers)) {
+
+            if (empty($book->cover) && array_key_exists($book->title, $customCovers)) {
                 $book->cover = $customCovers[$book->title];
-            } else {
-                $book->cover = $randomCovers[array_rand($randomCovers)];
             }
         }
-
         return view('admin.pages.books.show', compact('books'));
     }
+
 
     public function edit($id)
     {
@@ -115,24 +120,33 @@ class BookController extends Controller
 
     public function update(BookRequest $request, $id)
     {
+        $book = $this->bookService->findBookById($id);
 
-            $book = $this->bookService->findBookById($id);
+        $data = $request->validated();
 
-            $authorId = $request->input('author_id');
-            $categoryId = $request->input('category_id');
 
-            $this->bookService->updateBook($id, [
-                'title' => $request->input('title'),
-                'author_id' => $authorId,
-                'category_id' => $categoryId,
-                'description' => $request->input('description'),
-                'published_year' => $request->input('published_year'),
-            ]);
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('books', 'public');
+            $data['image'] = $path;
+        } else {
+            $data['image'] = $book->image;
+        }
 
-            return redirect()->route('admin.books.index')
-                ->with('success', 'Книга успешно обновлена');
+        $this->bookService->updateBook($id, [
+            'title'          => $data['title'],
+            'author_id'      => $request->input('author_id'),
+            'category_id'    => $request->input('category_id'),
+            'description'    => $data['description'],
+            'published_year' => $data['published_year'],
+            'price'          => $data['price'],
+            'quantity'       => $data['quantity'],
+            'image'          => $data['image'],
+        ]);
 
+        return redirect()->route('admin.books.index')
+            ->with('success', 'Книга успешно обновлена');
     }
+
 
     public function destroy(int $id)
     {

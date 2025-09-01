@@ -3,31 +3,39 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PurchaseRequest;
 use App\Models\Book;
-use App\Service\BookService;
-use Illuminate\Http\Request;
 use App\Models\Purchase;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Service\PurchaseService;
+use App\Service\BookService;
+use App\Service\UserService;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class PurchaseController extends Controller
 {
+    /** @var PurchaseService $purchaseService */
+    private PurchaseService $purchaseService;
+
+    /** @var UserService $userService */
+    private UserService $userService;
+
     /** @var BookService $bookService */
     private BookService $bookService;
 
-    public function __construct(BookService $bookService)
-    {
+    public function __construct(
+        PurchaseService $purchaseService,
+        UserService $userService,
+        BookService $bookService
+    ) {
+        $this->purchaseService = $purchaseService;
+        $this->userService = $userService;
         $this->bookService = $bookService;
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param int $id
-     *
-     */
     public function create($id)
     {
         $book = $this->bookService->findBookById($id);
@@ -82,5 +90,35 @@ class PurchaseController extends Controller
         }
 
         return view('admin.pages.books.purchase.success', $data);
+    }
+
+    public function index()
+    {
+        $purchases = $this->purchaseService->getPurchases();
+        return view('admin.pages.purchases.index', compact('purchases'));
+    }
+
+
+    public function edit(int $id)
+    {
+        $purchase = $this->purchaseService->findPurchaseById($id);
+        $users = $this->userService->getUsers();
+        $books = $this->bookService->getBooks();
+
+        return view('admin.pages.purchases.edit', compact('purchase', 'users', 'books'));
+    }
+
+    public function update(PurchaseRequest $request, int $id): RedirectResponse
+    {
+        $this->purchaseService->updatePurchase($id, $request->validated());
+        return redirect()->route('admin.purchases.index')
+            ->with('success', 'Purchase updated successfully');
+    }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        $this->purchaseService->deletePurchase($id);
+        return redirect()->route('admin.purchases.index')
+            ->with('success', 'Purchase deleted successfully');
     }
 }

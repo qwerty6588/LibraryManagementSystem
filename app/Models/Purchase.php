@@ -2,18 +2,24 @@
 
 namespace App\Models;
 
+use App\Traits\HasTranslatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @method static \Illuminate\Database\Eloquent\Builder|Purchase create(array $attributes = [])
+ * App\Models\Purchase
+ * @property int $id
+ * @property int $user_id
+ * @property int $book_id
  * @property int $quantity
- * @property int $total
+ * @property float $total
+ * @method static \Illuminate\Database\Eloquent\Builder|Purchase create(array $attributes = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Purchase where($column, $operator = null, $value = null, $boolean = 'and')
  */
 
 class Purchase extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslatable;
 
     protected $fillable = [
         'user_id',
@@ -22,11 +28,21 @@ class Purchase extends Model
         'total',
     ];
 
-    public function user() {
+    protected array $translatable = [
+        'book_id',
+    ];
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function book() {
+    public function book()
+    {
         return $this->belongsTo(Book::class);
     }
 }
+
+
+
+

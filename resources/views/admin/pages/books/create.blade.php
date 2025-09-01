@@ -18,6 +18,14 @@
         <form action="{{ route('admin.books.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
+            <div class="form-group">
+                <label for="image">Обложка</label>
+                <input type="file" name="image" class="form-control">
+                @if(isset($book) && $book->image)
+                    <img src="{{ asset('storage/'.$book->image) }}" width="100" class="mt-2">
+                @endif
+            </div>
+
             <div class="mb-3">
                 <label for="title" class="form-label">Name of the book</label>
                 <input type="text" name="title" class="form-control" value="{{ old('title') }}" required>
@@ -62,11 +70,6 @@
             <div class="mb-3">
                 <label for="quantity" class="form-label">Quantity</label>
                 <input type="number" name="quantity" id="quantity" class="form-control" value="{{ old('quantity') }}" min="1" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="image" class="form-label">Book Image</label>
-                <input type="file" name="image" id="image" class="form-control" accept="image/*">
             </div>
 
             <button type="submit" class="btn btn-primary">Create</button>

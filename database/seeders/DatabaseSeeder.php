@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Http\Controllers\Admin\PurchaseController;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,7 +20,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             AuthorTableSeeder::class,
             BookTableSeeder::class,
-            BorrowTableSeeder::class,
+            PurchaseTableSeeder::class,
         ]);
     }
 }

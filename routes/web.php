@@ -31,7 +31,7 @@ Route::prefix('admin')
         Route::resource('books', BookController::class);
         Route::resource('authors', AuthorController::class);
         Route::resource('categories', CategoryController::class);
-        Route::resource('borrowings', BorrowingController::class);
+        Route::resource('purchases', PurchaseController::class);
         Route::resource('users', UserController::class);
     });
 
@@ -39,7 +39,6 @@ Route::prefix('admin')
 Route::get('/purchase/{id}/create', [PurchaseController::class, 'create'])->name('purchase.create');
 Route::post('/purchase/{id}/store', [PurchaseController::class, 'store'])->name('purchase.store');
 Route::get('/purchase/success', [PurchaseController::class, 'success'])->name('purchase.success');
-
 Route::get('/purchase/success', [PurchaseController::class, 'success'])->name('purchase.success');
 
 Route::get('/books/all', [BookController::class, 'show'])->name('books.all');

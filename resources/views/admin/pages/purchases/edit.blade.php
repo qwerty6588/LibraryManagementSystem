@@ -3,7 +3,7 @@
 @section('content')
     <h2>Редактировать выдачу книги</h2>
 
-    <form action="{{ route('admin.borrowings.update', $borrowing->id) }}" method="POST">
+    <form action="{{ route('admin.purchases.update', $borrowing->id) }}" method="POST">
         @csrf
         @method('PUT')
 

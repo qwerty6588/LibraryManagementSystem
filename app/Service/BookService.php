@@ -64,11 +64,14 @@ class BookService
         }
 
         $bookData = [
-            'title' => $data['title'],
-            'author_id' => $author->id,
-            'category_id' => $category->id,
-            'description' => $data['description'] ?? null,
+            'title'          => $data['title'],
+            'author_id'      => $author->id,
+            'category_id'    => $category->id,
+            'description'    => $data['description'] ?? null,
             'published_year' => $data['published_year'],
+            'price'          => $data['price'],
+            'quantity'       => $data['quantity'],
+            'image'          => $data['image'] ?? null,
         ];
 
         $result = $this->bookRepository->create($bookData);

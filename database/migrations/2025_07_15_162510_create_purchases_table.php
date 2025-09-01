@@ -11,18 +11,26 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up(): void {
+    public function up()
+    {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('book_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('book_id')->constrained()->onDelete('cascade');
             $table->integer('quantity')->default(1);
-            $table->decimal('total', 10, 2);
+            $table->string('total')->nullable();
             $table->timestamps();
         });
     }
 
-    public function down(): void {
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
         Schema::dropIfExists('purchases');
     }
 };

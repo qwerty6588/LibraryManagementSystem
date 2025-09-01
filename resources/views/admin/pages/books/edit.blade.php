@@ -66,9 +66,24 @@
             </div>
 
             <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" name="quantity" class="form-control"
+                       value="{{ old('quantity', $book->quantity) }}" required>
+            </div>
+
+            <div class="mb-3">
                 <label for="price" class="form-label">Price ($)</label>
                 <input type="number" step="0.01" name="price" class="form-control"
                        value="{{ old('price', $book->price) }}" required>
+            </div>
+
+
+            <div class="mb-3">
+                <label class="form-label">Image</label>
+                <input type="file" name="photo" class="form-control">
+                @isset($book->photo)
+                    <img src="{{ asset('storage/'.$book->photo) }}" class="img-fluid mt-2 rounded" style="max-height:180px">
+                @endisset
             </div>
 
             <button type="submit" class="btn btn-success">Update</button>
