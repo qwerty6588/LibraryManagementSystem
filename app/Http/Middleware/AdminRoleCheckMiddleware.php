@@ -2,10 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
-class Admin
+class AdminRoleCheckMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,10 +15,10 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        /** @var User|null $user */
-        $user = Auth::user();
-
-        if ($user && $user->email === 'admin@admin.com') {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        if (Auth::user()->role_id == 1) {
             return $next($request);
         }
 

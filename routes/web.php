@@ -37,7 +37,7 @@ Route::prefix('admin')
 
 
 Route::get('/purchase/{id}/create', [PurchaseController::class, 'create'])->name('purchase.create');
-Route::get('/purchase/{id}/store', [PurchaseController::class, 'store'])->name('purchase.store');
+Route::get('/purchase/{id}/store', [PurchaseController::class, 'store'])->name('purchase.store')->middleware('auth');
 Route::get('/purchase/success', [PurchaseController::class, 'success'])->name('purchase.success');
 Route::get('/purchase/success', [PurchaseController::class, 'success'])->name('purchase.success');
 
