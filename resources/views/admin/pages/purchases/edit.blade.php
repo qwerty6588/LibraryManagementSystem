@@ -3,7 +3,7 @@
 @section('content')
     <h2>Редактировать выдачу книги</h2>
 
-    <form action="{{ route('admin.borrowings.update', $borrowing->id) }}" method="POST">
+    <form action="{{ route('admin.purchases.update', $borrowing->id) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -34,13 +34,13 @@
         <div class="mb-3">
             <label for="borrowed_at" class="form-label">Дата выдачи</label>
             <input type="date" name="borrowed_at" class="form-control"
-                   value="{{ old('borrowed_at', $borrowing->borrowed_at ? \Carbon\Carbon::parse($borrowing->borrowed_at)->format('Y-m-d') : '') }}" required>
+                   value="{{ old('borrowed_at', $borrowing->borrowed_at ? Carbon::parse($borrowing->borrowed_at)->format('Y-m-d') : '') }}" required>
         </div>
 
         <div class="mb-3">
             <label for="returned_at" class="form-label">Срок возврата</label>
             <input type="date" name="returned_at" class="form-control"
-                   value="{{ old('returned_at', $borrowing->returned_at ? \Carbon\Carbon::parse($borrowing->returned_at)->format('Y-m-d') : '') }}" required>
+                   value="{{ old('returned_at', $borrowing->returned_at ? Carbon::parse($borrowing->returned_at)->format('Y-m-d') : '') }}" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Сохранить</button>

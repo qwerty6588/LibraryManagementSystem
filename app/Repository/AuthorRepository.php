@@ -17,7 +17,7 @@ class AuthorRepository extends BaseRepository
         return $this->model->all();
     }
 
-    public function findById(int $id)
+    public function findByName(int $id)
     {
         return $this->model::find($id) ?: null;
     }
@@ -39,5 +39,11 @@ class AuthorRepository extends BaseRepository
     public function delete(Author $author): bool
     {
         return $author->delete();
+    }
+
+
+    public function firstOrCreate(array $data): Author
+    {
+        return $this->model->firstOrCreate($data);
     }
 }
