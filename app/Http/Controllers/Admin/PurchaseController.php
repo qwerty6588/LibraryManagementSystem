@@ -3,122 +3,72 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PurchaseRequest;
 use App\Models\Book;
 use App\Models\Purchase;
-use App\Models\User;
-use App\Service\PurchaseService;
-use App\Service\BookService;
-use App\Service\UserService;
-use Illuminate\Http\Request;
+use App\Models\PurchaseItem;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 
 class PurchaseController extends Controller
 {
-    /** @var PurchaseService $purchaseService */
-    private PurchaseService $purchaseService;
-
-    /** @var UserService $userService */
-    private UserService $userService;
-
-    /** @var BookService $bookService */
-    private BookService $bookService;
-
-    public function __construct(
-        PurchaseService $purchaseService,
-        UserService $userService,
-        BookService $bookService
-    ) {
-        $this->purchaseService = $purchaseService;
-        $this->userService = $userService;
-        $this->bookService = $bookService;
-    }
-
-    public function create($id)
+    public function index(): View
     {
-        $book = $this->bookService->findBookById($id);
-        return view('admin.pages.books.purchase.create', compact('book'));
-    }
+        $purchases = Purchase::with('items.book')
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return RedirectResponse
-     */
-    public function store(Request $request, $id): RedirectResponse
-    {
-        $validated = $request->validate([
-            'cvv'      => 'required|digits_between:3,4',
-            'quantity' => 'required|integer|min:1',
-        ]);
-
-        $book = null;
-        for ($i = 0; $i < $validated['quantity']; $i++) {
-            $book = $this->bookService->purchaseBook($id);
-        }
-
-        $purchase = Purchase::create([
-            'user_id'  => Auth::id(),
-            'book_id'  => $book->id,
-            'quantity' => $validated['quantity'],
-            'total'    => $book->price * $validated['quantity'],
-        ]);
-
-        return redirect()->route('purchase.success')->with('purchase_data', [
-            'book'     => $book->title,
-            'quantity' => $purchase->quantity,
-            'total'    => $purchase->total,
-            'payment_method' => 'Card',
-        ]);
-    }
-
-    /**
-     * Show purchase success page.
-     *
-     * @
-     */
-    public function success()
-    {
-        $data = session('purchase_data');
-
-        if (!$data) {
-            return redirect()->route('admin.books.index')->with('error', 'Нет данных о покупке.');
-        }
-
-        return view('admin.pages.books.purchase.success', $data);
-    }
-
-    public function index()
-    {
-        $purchases = $this->purchaseService->getPurchases();
         return view('admin.pages.purchases.index', compact('purchases'));
     }
 
-
-    public function edit(int $id)
+    public function checkout(): RedirectResponse
     {
-        $purchase = $this->purchaseService->findPurchaseById($id);
-        $users = $this->userService->getUsers();
-        $books = $this->bookService->getBooks();
+        $cart = session()->get('cart', []);
 
-        return view('admin.pages.purchases.edit', compact('purchase', 'users', 'books'));
+        if (empty($cart)) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Корзина пуста');
+        }
+
+        $total = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
+
+        $purchase = Purchase::create([
+            'user_id' => Auth::id(),
+            'total'   => $total,
+            'status'  => 'pending',
+        ]);
+
+        foreach ($cart as $bookId => $item) {
+            PurchaseItem::query()->create([
+                'purchase_id' => $purchase->id,
+                'book_id'     => $bookId,
+                'quantity'    => $item['quantity'],
+                'price'       => $item['price'],
+            ]);
+        }
+
+        session()->forget('cart');
+
+        return redirect()->route('admin.purchases.index')
+            ->with('success', 'Заказ успешно оформлен!');
     }
 
-    public function update(PurchaseRequest $request, int $id): RedirectResponse
+    public function show(int $id): View
     {
-        $this->purchaseService->updatePurchase($id, $request->validated());
-        return redirect()->route('admin.purchases.index')
-            ->with('success', 'Purchase updated successfully');
+        $purchase = Purchase::with('items.book')
+            ->where('user_id', Auth::id())
+            ->findOrFail($id);
+
+        return view('admin.pages.purchases.show', compact('purchase'));
     }
 
     public function destroy(int $id): RedirectResponse
     {
-        $this->purchaseService->deletePurchase($id);
+        $purchase = Purchase::where('user_id', Auth::id())->findOrFail($id);
+        $purchase->delete();
+
         return redirect()->route('admin.purchases.index')
-            ->with('success', 'Purchase deleted successfully');
+            ->with('success', 'Заказ удалён');
     }
 }

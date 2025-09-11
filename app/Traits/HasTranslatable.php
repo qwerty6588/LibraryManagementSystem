@@ -79,15 +79,28 @@ trait HasTranslatable
     }
 
     /**
-     * Get all attribute translations
+     * Get translation for a given field and locale.
      *
-     * @param string $key
-     * @return mixed
+     * @param string $field
+     * @param string $locale
+     * @return string|null
      */
-    public function getTranslations(string $key): mixed
+    public function getTranslation(string $field, string $locale): ?string
     {
-        return $this->getAttributeValue($key);
+        $value = $this->getAttributeValue($field);
+
+        if (is_string($value)) {
+            $value = json_decode($value, true);
+        }
+
+        if (is_array($value) && isset($value[$locale])) {
+            return $value[$locale];
+        }
+
+        return null;
     }
+
+
 
     /**
      * Get an attribute from the model.

@@ -58,7 +58,7 @@ class AuthorService
 
     public function findAuthorById(int $id): Author
     {
-        $author = $this->authorRepository->findById($id);
+        $author = $this->authorRepository->findByName($id);
         if (!$author) {
             throw new Exception('Author not found');
         }

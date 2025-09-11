@@ -15,14 +15,31 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.books.update', $book->id) }}" method="POST">
-            @csrf
+        <form action="{{ route('admin.books.update', $book->id) }}"
+              method="POST" enctype="multipart/form-data">
+
+        @csrf
             @method('PUT')
 
             <div class="mb-3">
-                <label for="title" class="form-label">Name of the book</label>
-                <input type="text" name="title" class="form-control"
-                       value="{{ old('title', $book->title) }}" required>
+                <label class="form-label">Name of the book</label>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" name="title[uz]" class="form-control mb-2"
+                               placeholder="Название (UZ)"
+                               value="{{ old('title.uz', $book->getTranslation('title', 'uz')) }}">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="title[ru]" class="form-control mb-2"
+                               placeholder="Название (RU)"
+                               value="{{ old('title.ru', $book->getTranslation('title', 'ru')) }}">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="title[en]" class="form-control mb-2"
+                               placeholder="Название (EN)"
+                               value="{{ old('title.en', $book->getTranslation('title', 'en')) }}">
+                    </div>
+                </div>
             </div>
 
             <div class="mb-3">
@@ -53,10 +70,26 @@
                 </select>
             </div>
 
+
+
             <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" class="form-control" rows="4">{{ old('description', $book->description) }}</textarea>
+                <label class="form-label">Description</label>
+                <div class="row">
+                    <div class="col-md-4">
+            <textarea name="description[uz]" class="form-control mb-2" rows="3"
+                      placeholder="Описание (UZ)">{{ old('description.uz', $book->getTranslation('description', 'uz')) }}</textarea>
+                    </div>
+                    <div class="col-md-4">
+            <textarea name="description[ru]" class="form-control mb-2" rows="3"
+                      placeholder="Описание (RU)">{{ old('description.ru', $book->getTranslation('description', 'ru')) }}</textarea>
+                    </div>
+                    <div class="col-md-4">
+            <textarea name="description[en]" class="form-control mb-2" rows="3"
+                      placeholder="Описание (EN)">{{ old('description.en', $book->getTranslation('description', 'en')) }}</textarea>
+                    </div>
+                </div>
             </div>
+
 
             <div class="mb-3">
                 <label for="published_year" class="form-label">Published Year</label>
@@ -80,11 +113,14 @@
 
             <div class="mb-3">
                 <label class="form-label">Image</label>
-                <input type="file" name="photo" class="form-control">
-                @isset($book->photo)
-                    <img src="{{ asset('storage/'.$book->photo) }}" class="img-fluid mt-2 rounded" style="max-height:180px">
-                @endisset
+                <input type="file" name="image" class="form-control">
+                @if($book->image)
+                    <img src="{{ asset('storage/' . $book->image) }}"
+                         class="img-fluid mt-2 rounded"
+                         style="max-height:180px">
+                @endif
             </div>
+
 
             <button type="submit" class="btn btn-success">Update</button>
             <a href="{{ route('admin.books.index') }}" class="btn btn-secondary">Cancel</a>

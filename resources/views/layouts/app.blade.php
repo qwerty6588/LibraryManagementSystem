@@ -75,9 +75,12 @@
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg shadow-sm">
     <div class="container">
+        <a class="navbar-brand" href="{{ url('/') }}">
+            📚 BookStore
+        </a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -86,6 +89,19 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
+
+
+                <li class="nav-item me-3">
+                    <a href="{{ route('cart.index') }}" class="nav-link position-relative">
+                        <i class="bi bi-cart-fill fs-5 text-white"></i>
+                        @php $cartCount = count(session('cart', [])); @endphp
+                        @if($cartCount > 0)
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ $cartCount }}
+                            </span>
+                        @endif
+                    </a>
+                </li>
 
                 @auth
                     <li class="nav-item dropdown">
@@ -115,6 +131,7 @@
         </div>
     </div>
 </nav>
+
 
 <!-- Content -->
 <main class="py-4">

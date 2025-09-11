@@ -28,7 +28,9 @@
 
             <div class="mb-3">
                 <label for="title" class="form-label">Name of the book</label>
-                <input type="text" name="title" class="form-control" value="{{ old('title') }}" required>
+                <input type="text" name="title[uz]" class="form-control mb-2" value="{{ old('title') }}" required>
+                <input type="text" name="title[ru]" class="form-control mb-2" value="{{ old('title') }}" required>
+                <input type="text" name="title[en]" class="form-control mb-2" value="{{ old('title') }}" required>
             </div>
 
             <div class="mb-3">
@@ -53,7 +55,9 @@
 
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
+                <textarea name="description[uz]" class="form-control" rows="3">{{ old('description') }}</textarea>
+                <textarea name="description[ru]" class="form-control" rows="3">{{ old('description') }}</textarea>
+                <textarea name="description[en]" class="form-control" rows="3">{{ old('description') }}</textarea>
             </div>
 
             <div class="mb-3">

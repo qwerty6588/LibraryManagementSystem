@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BookController;
-use App\Http\Controllers\Admin\BorrowingController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CartController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -37,9 +37,21 @@ Route::prefix('admin')
 
 
 Route::get('/purchase/{id}/create', [PurchaseController::class, 'create'])->name('purchase.create');
-Route::get('/purchase/{id}/store', [PurchaseController::class, 'store'])->name('purchase.store')->middleware('auth');
+Route::post('/purchase/{id}/store', [PurchaseController::class, 'store'])->name('purchase.store')->middleware('auth');
 Route::get('/purchase/success', [PurchaseController::class, 'success'])->name('purchase.success');
 Route::get('/purchase/success', [PurchaseController::class, 'success'])->name('purchase.success');
+
+
+Route::prefix('cart')->name('cart.')->group(function () {
+    Route::get('/', [CartController::class, 'index'])->name('index');
+    Route::post('/add/{id}', [CartController::class, 'add'])->name('add');
+    Route::post('/update/{id}', [CartController::class, 'update'])->name('update');
+    Route::get('/remove/{id}', [CartController::class, 'remove'])->name('remove');
+    Route::get('/clear', [CartController::class, 'clear'])->name('clear');
+
+    Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::get('/success', [CartController::class, 'success'])->name('success');
+});
 
 Route::get('/books/all', [BookController::class, 'show'])->name('books.all');
 

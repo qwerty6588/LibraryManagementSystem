@@ -20,6 +20,8 @@ use App\Traits\HasTranslatable;
  * @property string|null $price
  * @property string|null $cover
  * @property string $author
+ * @method static \Illuminate\Database\Eloquent\Builder|static find($id, $columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Builder|static findOrFail($id, $columns = ['*'])
  * @method static \Illuminate\Database\Eloquent\Builder|Book create(array $attributes = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Book where($column, $operator = null, $value = null, $boolean = 'and')
  */
@@ -53,9 +55,6 @@ class Book extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function borrowings()
-    {
-        return $this->hasMany(Borrowing::class, 'borrowings_id');
-    }
+
 }
 

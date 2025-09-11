@@ -74,12 +74,13 @@
             @foreach ($books as $book)
                 <div class="col-md-3 mb-4">
                     <div class="card book-card h-100">
+                        {{-- Обложка --}}
                         @if($book->cover)
                             <img src="{{ asset('storage/books/' . $book->cover) }}"
                                  class="card-img-top book-img"
                                  alt="{{ $book->title }}">
                         @else
-                            <img src="{{asset ('storage/'.$book->image)}}"
+                            <img src="{{ asset('storage/'.$book->image) }}"
                                  class="card-img-top book-img"
                                  alt="No Image">
                         @endif
@@ -94,31 +95,38 @@
                                 <p class="card-text price-tag">{{ number_format($book->price, 2) }} $</p>
                                 <p class="card-text"><strong>Quantity:</strong> {{ $book->quantity ?? '-' }}</p>
                             </div>
+
                             <div class="mt-3">
                                 @if(auth()->check() && auth()->user()->email === 'admin@admin.com')
+                                    {{-- Кнопка редактирования --}}
                                     <a href="{{ route('admin.books.edit', $book->id) }}"
                                        class="btn btn-warning btn-sm w-100 btn-custom mb-2">✏️ Edit</a>
+
+                                    {{-- Кнопка удаления --}}
                                     <form action="{{ route('admin.books.destroy', $book->id) }}" method="POST" class="mb-2">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm w-100 btn-custom">🗑️ Delete</button>
                                     </form>
+                                @endif
 
-                                    @if($book->quantity > 0)
-                                        <a href="{{ route('purchase.create', $book->id) }}"
-                                           class="btn btn-success w-100 btn-custom">💳 Buy Now</a>
-                                    @else
-                                        <p class="text-danger fw-bold text-center">Sold out</p>
-                                    @endif
+                                {{-- Добавление в корзину --}}
+                                @if($book->quantity > 0)
+                                    <form action="{{ route('cart.add', $book->id) }}" method="POST">
+                                        @csrf
+                                        <div class="input-group">
+                                            <input type="number" name="quantity" value="1" min="1" max="{{ $book->quantity }}"
+                                                   class="form-control form-control-sm text-center" style="max-width: 70px;">
+                                            <button type="submit" class="btn btn-primary btn-sm btn-custom">
+                                                🛒 Add to Cart
+                                            </button>
+                                        </div>
+                                    </form>
                                 @else
-                                    @if($book->quantity > 0)
-                                        <a href="{{ route('purchase.create', $book->id) }}"
-                                           class="btn btn-success w-100 btn-custom">💳 Buy Now</a>
-                                    @else
-                                        <p class="text-danger fw-bold text-center">Sold out</p>
-                                    @endif
+                                    <p class="text-danger fw-bold text-center">Sold out</p>
                                 @endif
                             </div>
+
                         </div>
                     </div>
                 </div>
