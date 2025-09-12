@@ -31,11 +31,11 @@ Route::prefix('admin')
         Route::resource('books', BookController::class);
         Route::resource('authors', AuthorController::class);
         Route::resource('categories', CategoryController::class);
-        Route::resource('purchases', PurchaseController::class);
         Route::resource('users', UserController::class);
+
     });
 
-
+Route::get('/purchases', [CartController::class, 'purchases'])->name('admin.purchases');
 Route::get('/purchase/{id}/create', [PurchaseController::class, 'create'])->name('purchase.create');
 Route::post('/purchase/{id}/store', [PurchaseController::class, 'store'])->name('purchase.store')->middleware('auth');
 Route::get('/purchase/success', [PurchaseController::class, 'success'])->name('purchase.success');
@@ -48,7 +48,6 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::post('/update/{id}', [CartController::class, 'update'])->name('update');
     Route::get('/remove/{id}', [CartController::class, 'remove'])->name('remove');
     Route::get('/clear', [CartController::class, 'clear'])->name('clear');
-
     Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
     Route::get('/success', [CartController::class, 'success'])->name('success');
 });

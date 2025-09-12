@@ -46,6 +46,13 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Книга добавлена в корзину!');
     }
 
+    public function purchases()
+    {
+        $purchases = session()->get('purchases', []);
+        return view('admin.pages.cart.purchases', compact('purchases'));
+    }
+
+
 
 
     public function update(Request $request, $id)
@@ -113,17 +120,24 @@ class CartController extends Controller
         }
 
 
-        session()->put([
-            'purchase_total' => $total,
-            'purchase_payment_method' => $validated['payment_method'],
-            'purchase_quantity' => $totalQuantity,
-        ]);
+        $purchases = session()->get('purchases', []);
+        $purchases[] = [
+            'user' => auth()->user()->email ?? 'Гость',
+            'items' => $cart,
+            'total' => $total,
+            'quantity' => $totalQuantity,
+            'payment_method' => $validated['payment_method'],
+            'date' => now()->format('Y-m-d H:i:s'),
+        ];
+        session()->put('purchases', $purchases);
 
 
         session()->forget('cart');
 
+
         return redirect()->route('cart.success');
     }
+
 
 
     public function success()

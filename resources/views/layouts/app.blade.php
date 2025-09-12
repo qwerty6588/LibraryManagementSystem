@@ -77,7 +77,7 @@
 
 <nav class="navbar navbar-expand-lg shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ url('/admin/books') }}">
             📚 BookStore
         </a>
 

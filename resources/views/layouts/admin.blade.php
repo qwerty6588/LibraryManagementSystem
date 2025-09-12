@@ -140,7 +140,7 @@
             <li><a class="nav-link" href="{{ route('admin.books.index') }}">📚 Books</a></li>
             <li><a class="nav-link" href="{{ route('admin.authors.index') }}">✍ Authors</a></li>
             <li><a class="nav-link" href="{{ route('admin.categories.index') }}">📂 Categories</a></li>
-            <li><a class="nav-link" href="{{ route('admin.purchases.index') }}">📑 Purchase</a></li>
+            <li><a class="nav-link" href="{{ route('admin.purchases') }}">📑 Purchase</a></li>
             <li><a class="nav-link" href="{{ route('admin.users.index') }}">👤 Users</a></li>
         </ul>
     </nav>
