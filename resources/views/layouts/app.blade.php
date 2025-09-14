@@ -111,6 +111,11 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow">
                             <li>
+                                <a href="{{ url('cabinet/orders') }}" class="dropdown-item">
+                                    <i class="bi bi-bag-check"></i> Мои заказы
+                                </a>
+                            </li>
+                            <li>
                                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                     @csrf
                                     <button type="submit" class="dropdown-item">
@@ -120,13 +125,8 @@
                             </li>
                         </ul>
                     </li>
-                @else
-                    <li class="nav-item ms-3">
-                        <a href="{{ route('login') }}" class="btn btn-primary">
-                            <i class="bi bi-box-arrow-in-right"></i> Войти
-                        </a>
-                    </li>
                 @endauth
+
             </ul>
         </div>
     </div>

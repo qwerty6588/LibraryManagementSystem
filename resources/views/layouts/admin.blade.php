@@ -97,15 +97,13 @@
 <body>
 
 <div class="d-flex">
-    <!-- Sidebar -->
+
     <nav class="sidebar d-flex flex-column p-3">
 
-        <!-- Логотип -->
         <a class="glitch mb-4 text-decoration-none" data-text="Library Admin" href="{{ route('admin.books.index') }}">
             Library Admin
         </a>
 
-        <!-- User + Language dropdowns (под логотипом) -->
         <div class="mb-4">
             @auth
                 <div class="dropdown mb-2">
@@ -135,14 +133,15 @@
             </div>
         </div>
 
-        <!-- Навигация -->
+
         <ul class="nav nav-pills flex-column mb-auto">
-            <li><a class="nav-link" href="{{ route('admin.books.index') }}">📚 Books</a></li>
+            <li><a class="nav-link" href="{{ route('admin.books.index') }}"> 📖Books</a></li>
             <li><a class="nav-link" href="{{ route('admin.authors.index') }}">✍ Authors</a></li>
             <li><a class="nav-link" href="{{ route('admin.categories.index') }}">📂 Categories</a></li>
-            <li><a class="nav-link" href="{{ route('admin.purchases') }}">📑 Purchase</a></li>
+            <li><a class="nav-link" href="{{ route('admin.purchases') }}">📚 Purchase</a></li>
             <li><a class="nav-link" href="{{ route('admin.users.index') }}">👤 Users</a></li>
         </ul>
+
     </nav>
 
     <!-- Main content -->

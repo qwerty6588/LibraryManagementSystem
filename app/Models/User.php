@@ -14,6 +14,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $id
  * @property string $name
  * @property string $email
+ * @mixin \Illuminate\Database\Eloquent\Builder
  * @method static \Illuminate\Database\Eloquent\Builder|User create(array $attributes = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User where($column, $operator = null, $value = null, $boolean = 'and')
  */

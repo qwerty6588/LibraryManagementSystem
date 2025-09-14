@@ -29,6 +29,9 @@ class BookRepository extends BaseRepository
 
     public function update(Book $book, array $data): bool
     {
+        if (isset($data['image'])) {
+            $book->image = $data['image'];
+        }
         return $book->update($data);
     }
 

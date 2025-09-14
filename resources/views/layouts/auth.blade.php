@@ -22,7 +22,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* фон под карточкой */
+            z-index: -1;
         }
 
         .auth-card {
@@ -53,7 +53,7 @@
 </head>
 <body>
 
-<!-- Hyperspeed background -->
+
 <canvas id="hyperspeed"></canvas>
 
 <div class="auth-wrapper">
@@ -93,7 +93,7 @@
 
         for (let i = 0; i < numStars; i++) {
             let star = stars[i];
-            star.z -= 2; // скорость движения
+            star.z -= 2;
             if (star.z <= 0) {
                 star.z = w;
                 star.color = `hsl(${Math.random() * 360}, 100%, 70%)`; // новая радужная

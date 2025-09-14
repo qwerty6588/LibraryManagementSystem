@@ -67,7 +67,7 @@
                             </table>
 
 
-                            <form action="{{ route('cart.checkout') }}" method="POST">
+                            <form  action="{{ route('cart.checkout') }}" method="POST">
                                 @csrf
                                 <h5 class="mb-3 fw-semibold">Способ оплаты</h5>
                                 <div class="form-check mb-2">
@@ -78,14 +78,7 @@
                                     <input class="form-check-input" type="radio" name="payment_method" value="credit" id="pay2">
                                     <label class="form-check-label" for="pay2">Кредитная / Дебетовая карта</label>
                                 </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="payment_method" value="netbanking" id="pay3">
-                                    <label class="form-check-label" for="pay3">Интернет-банкинг</label>
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="payment_method" value="cod" id="pay4">
-                                    <label class="form-check-label" for="pay4">Оплата при получении</label>
-                                </div>
+
 
                                 <div class="row align-items-center mb-4 mt-3">
                                     <div class="col-md-4">

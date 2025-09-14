@@ -98,11 +98,11 @@
 
                             <div class="mt-3">
                                 @if(auth()->check() && auth()->user()->email === 'admin@admin.com')
-                                    {{-- Кнопка редактирования --}}
+
                                     <a href="{{ route('admin.books.edit', $book->id) }}"
                                        class="btn btn-warning btn-sm w-100 btn-custom mb-2">✏️ Edit</a>
 
-                                    {{-- Кнопка удаления --}}
+
                                     <form action="{{ route('admin.books.destroy', $book->id) }}" method="POST" class="mb-2">
                                         @csrf
                                         @method('DELETE')
@@ -110,7 +110,7 @@
                                     </form>
                                 @endif
 
-                                {{-- Добавление в корзину --}}
+
                                 @if($book->quantity > 0)
                                     <form action="{{ route('cart.add', $book->id) }}" method="POST">
                                         @csrf

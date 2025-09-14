@@ -11,6 +11,7 @@ use App\Repository\BookRepository;
 use App\Repository\CategoryRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 
 class BookService
 {
@@ -94,6 +95,12 @@ class BookService
         foreach ($existingBooks as $existing) {
             if ($existing->title === $data['title'] && $existing->id !== $id) {
                 throw new Exception('Another book with this title already exists');
+            }
+        }
+
+        if (isset($data['image']) && $data['image'] && $book->image !== $data['image']) {
+            if (Storage::disk('public')->exists($book->image)) {
+                Storage::disk('public')->delete($book->image);
             }
         }
 

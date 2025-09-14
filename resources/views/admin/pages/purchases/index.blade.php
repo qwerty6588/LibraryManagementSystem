@@ -22,7 +22,6 @@
             <th>Book</th>
             <th>Quantity</th>
             <th>Total</th>
-         {{--<th>Actions</th>--}}
         </tr>
         </thead>
         <tbody>
@@ -34,12 +33,12 @@
                 <td>{{ $purchase->quantity }}</td>
                 <td>{{ $purchase->total }}</td>
                 <td>
-                   {{-- <a href="{{ route('admin.purchases.edit', $purchase->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{{ route('admin.purchases.edit', $purchase->id) }}" class="btn btn-warning btn-sm">Edit</a>
                     <form action="{{ route('admin.purchases.destroy', $purchase->id) }}" method="POST" style="display:inline-block">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                    </form>--}}
+                    </form>
                 </td>
             </tr>
         @endforeach

@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             AuthorTableSeeder::class,
             BookTableSeeder::class,
-            PurchaseTableSeeder::class,
         ]);
     }
 }

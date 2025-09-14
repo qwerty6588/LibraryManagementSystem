@@ -5,7 +5,7 @@
         📚 Purchases
     </h1>
 
-    @if(empty($purchases))
+    @if(empty($orders))
         <div class="alert alert-info text-center">Покупок пока нет.</div>
     @else
         <div class="card shadow-lg border-0">
@@ -20,16 +20,18 @@
                             <th>Total Quantity</th>
                             <th>Total Price</th>
                             <th>Payment</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($purchases as $index => $purchase)
+                        @foreach($orders as $index => $purchase)
                             <tr>
                                 <td class="fw-bold">{{ $index + 1 }}</td>
                                 <td>
-                                    <span class="badge bg-primary p-2">
-                                        {{ $purchase['user'] }}
-                                    </span>
+                                    <span class="badge bg-primary p-2">{{ $purchase['user'] }}</span><br>
+                                    <small class="text-muted">{{ $purchase['user_email'] }}</small>
                                 </td>
                                 <td class="text-start">
                                     <ul class="list-unstyled mb-0">
@@ -43,12 +45,28 @@
                                 </td>
                                 <td><span class="badge bg-info">{{ $purchase['quantity'] }}</span></td>
                                 <td><strong class="text-success">${{ $purchase['total'] }}</strong></td>
+                                <td><span class="badge bg-warning text-dark">{{ ucfirst($purchase['payment_method']) }}</span></td>
+                                <td><small class="text-muted">{{ $purchase['date'] }}</small></td>
                                 <td>
-                                    <span class="badge bg-warning text-dark">
-                                        {{ ucfirst($purchase['payment_method']) }}
+                                    <span class="badge
+                                        @if($purchase['status'] === 'completed') bg-success
+                                        @elseif($purchase['status'] === 'cancelled') bg-danger
+                                        @else bg-secondary @endif">
+                                        {{ ucfirst($purchase['status']) }}
                                     </span>
                                 </td>
-
+                                <td>
+                                    <form action="{{ route('admin.orders.updateStatus', $purchase['id']) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <select name="status" class="form-select form-select-sm d-inline w-auto">
+                                            <option value="pending"   {{ $purchase['status'] === 'pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="completed" {{ $purchase['status'] === 'completed' ? 'selected' : '' }}>Completed</option>
+                                            <option value="cancelled" {{ $purchase['status'] === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
