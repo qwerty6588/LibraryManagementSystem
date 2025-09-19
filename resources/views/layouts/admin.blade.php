@@ -135,10 +135,10 @@
 
 
         <ul class="nav nav-pills flex-column mb-auto">
-            <li><a class="nav-link" href="{{ route('admin.books.index') }}"> 📖Books</a></li>
+            <li><a class="nav-link" href="{{ route('admin.books.index') }}">📖 Books</a></li>
             <li><a class="nav-link" href="{{ route('admin.authors.index') }}">✍ Authors</a></li>
             <li><a class="nav-link" href="{{ route('admin.categories.index') }}">📂 Categories</a></li>
-            <li><a class="nav-link" href="{{ route('admin.purchases') }}">📚 Purchase</a></li>
+            <li><a class="nav-link" href="{{ route('admin.orders.index') }}">📚 Orders</a></li>
             <li><a class="nav-link" href="{{ route('admin.users.index') }}">👤 Users</a></li>
         </ul>
 

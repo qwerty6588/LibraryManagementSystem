@@ -2,12 +2,14 @@
 @section('content')
 
     <h1 class="mb-4 text-center fw-bold" style="font-family: 'Poppins', sans-serif;">
-        📚 Purchases
+        📚 Orders
     </h1>
 
-    @if(empty($orders))
-        <div class="alert alert-info text-center">Покупок пока нет.</div>
+    @if($orders->isEmpty())
+        <div class="alert alert-info text-center">Заказов пока нет.</div>
     @else
+
+
         <div class="card shadow-lg border-0">
             <div class="card-body">
                 <div class="table-responsive">
@@ -30,9 +32,10 @@
                             <tr>
                                 <td class="fw-bold">{{ $index + 1 }}</td>
                                 <td>
-                                    <span class="badge bg-primary p-2">{{ $purchase['user'] }}</span><br>
+                                    <span class="badge bg-primary p-2">{{ $purchase['user_name'] }}</span><br>
                                     <small class="text-muted">{{ $purchase['user_email'] }}</small>
                                 </td>
+
                                 <td class="text-start">
                                     <ul class="list-unstyled mb-0">
                                         @foreach($purchase['items'] as $item)

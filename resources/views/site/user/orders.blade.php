@@ -22,20 +22,21 @@
                 @foreach($orders as $index => $order)
                     <tr>
                         <td>{{ $index+1 }}</td>
-                        <td>{{ $order['date'] }}</td>
-                        <td>{{ $order['quantity'] }}</td>
-                        <td>${{ $order['total'] }}</td>
+                        <td>{{ $order->created_at->format('d.m.Y') }}</td>
+                        <td>{{ $order->quantity }}</td>
+                        <td>${{ $order->total }}</td>
                         <td>
-                            <span class="badge bg-info">{{ ucfirst($order['status']) }}</span>
+                            <span class="badge bg-info">{{ ucfirst($order->status) }}</span>
                         </td>
                         <td>
-                            <a href="{{ route('user.orders.show', $order['id']) }}" class="btn btn-sm btn-primary">
+                            <a href="{{ route('user.orders.show', $order->id) }}" class="btn btn-sm btn-primary">
                                 Открыть
                             </a>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
+
             </table>
         @endif
     </div>

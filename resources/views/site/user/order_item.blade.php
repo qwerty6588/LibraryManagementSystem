@@ -3,7 +3,8 @@
 @section('content')
     <div class="container">
         <h2>Заказ № {{ $order['id'] }}</h2>
-        <p><strong>Дата:</strong> {{ $order['date'] }}</p>
+        <p><strong>Дата:</strong> {{ \Carbon\Carbon::parse($order['date'])->format('d.m.Y ') }}</p>
+
         <p><strong>Статус:</strong>
             <span class="badge bg-info">{{ ucfirst($order['status']) }}</span>
         </p>

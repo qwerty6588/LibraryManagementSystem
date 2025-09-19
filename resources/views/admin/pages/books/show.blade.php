@@ -74,7 +74,7 @@
             @foreach ($books as $book)
                 <div class="col-md-3 mb-4">
                     <div class="card book-card h-100">
-                        {{-- Обложка --}}
+
                         @if($book->cover)
                             <img src="{{ asset('storage/books/' . $book->cover) }}"
                                  class="card-img-top book-img"
