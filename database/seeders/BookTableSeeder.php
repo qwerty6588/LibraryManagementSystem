@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Category;
-use Illuminate\Database\Seeder;
 
 class BookTableSeeder extends Seeder
 {
@@ -13,53 +13,82 @@ class BookTableSeeder extends Seeder
     {
         $books = [
             [
-                'title' => '1984',
+                'title' => [
+                    'uz' => '1984',
+                    'ru' => '1984',
+                    'en' => '1984',
+                ],
                 'author' => 'George Orwell',
                 'category' => 'Fiction',
                 'year' => 1949,
-                'description' => 'Dystopian novel about totalitarianism.'
+                'description' => [
+                    'en' => 'Dystopian novel about totalitarianism',
+                    'ru' => 'Роман-антиутопия о тоталитаризме',
+                    'uz' => 'Totalitarizm haqidagi distopik roman',
+                ]
             ],
             [
-                'title' => 'Harry Potter',
+                'title' => [
+                    'uz' => 'Garri Potter',
+                    'ru' => 'Гарри Поттер',
+                    'en' => 'Harry Potter',
+                ],
                 'author' => 'J.K. Rowling',
                 'category' => 'Fantasy',
                 'year' => 1997,
-                'description' => 'A young wizard attends a magical school.'
+                'description' => [
+                    'en' => 'Harry Potter description',
+                    'ru' => 'Описание Гарри Поттера',
+                    'uz' => 'Garri Potterning tavsifi',
+                ]
             ],
             [
-                'title' => 'The Shining',
+                'title' => [
+                    'uz' => 'Orqinlik',
+                    'ru' => 'Сияние',
+                    'en' => 'The Shining',
+                ],
                 'author' => 'Stephen King',
                 'category' => 'Horror',
                 'year' => 1977,
-                'description' => 'A haunted hotel drives its caretaker insane.'
+                'description' => [
+                    'uz' => 'Totalitarizm haqidagi distopik roman',
+                    'ru' => 'Отель с привидениями сводит с ума своего смотрителя',
+                    'en' => 'A haunted hotel drives its caretaker insane',
+                ]
             ],
             [
-                'title' => 'I, Robot',
-                'author' => 'Isaac Asimov',
-                'category' => 'Science',
-                'year' => 1950,
-                'description' => 'A collection of short stories about robots.'
-            ],
-            [
-                'title' => 'Pride and Prejudice',
+                'title' => [
+                    'uz' => 'Mag‘rurlik va xurofot',
+                    'ru' => 'Гордость и предубеждение',
+                    'en' => 'Pride and Prejudice',
+                ],
                 'author' => 'Jane Austen',
                 'category' => 'Biography',
                 'year' => 1813,
-                'description' => 'A romantic novel set in early 19th-century England.'
+                'description' => [
+                    'en' => 'A romantic novel set in early 19th-century England',
+                    'uz' => '19-asr boshidagi Angliyada yozilgan romantik roman',
+                    'ru' => 'Действие романтического романа происходит в Англии начала 19 века',
+                ]
             ],
         ];
 
         foreach ($books as $data) {
-            $author = Author::firstOrCreate(['name' => $data['author']]);
-            $category = Category::firstOrCreate(['name' => $data['category']]);
+            $author = Author::where('name->en', $data['author'])->first();
+            $category = Category::where('name->en', $data['category'])->first();
 
-            Book::create([
-                'title' => $data['title'],
-                'author_id' => $author->id,
-                'category_id' => $category->id,
-                'description' => $data['description'],
-                'published_year' => $data['year'],
-            ]);
+            if ($author && $category) {
+                Book::create([
+                    'title'          => $data['title'],
+                    'author_id'      => $author->id,
+                    'category_id'    => $category->id,
+                    'description'    => $data['description'],
+                    'published_year' => $data['year'],
+                    'quantity'       => 10,
+                    'price'          => rand(50, 500),
+                ]);
+            }
         }
     }
 }

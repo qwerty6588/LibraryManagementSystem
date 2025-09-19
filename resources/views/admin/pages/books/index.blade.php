@@ -1,10 +1,118 @@
 @extends('layouts.admin')
 @section('content')
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <h1 class="mb-4 text-center fw-bold" style="font-family: 'Curlz MT';">
+        📖 Books
+    </h1>
 
+    <div class="d-flex gap-2 mb-4">
+        <a href="{{ route('admin.books.create') }}" class="btn btn-primary glare-hover">
+            ➕ Create Book
+        </a>
+        <a href="{{ route('books.all') }}" class="btn btn-success glare-hover">
+            📚 Show All Books
+        </a>
+    </div>
 
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            ✅ {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ⚠️ {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle text-center">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Year</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($books as $book)
+                        <tr>
+                            <td class="fw-bold">{{ $book->id }}</td>
+                            <td>{{ $book->title }}</td>
+                            <td>
+                                <span class="badge bg-info text-dark">
+                                    {{ $book->author->name ?? '-' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary">
+                                    {{ $book->category->name ?? '-' }}
+                                </span>
+                            </td>
+                            <td>{{ Str::limit($book->description, 25, '...') }}</td>
+                            <td><span class="badge bg-light text-dark">{{ $book->published_year }}</span></td>
+                            <td><strong class="text-success">${{ $book->price ?? '-' }}</strong></td>
+                            <td>
+                                @if($book->quantity > 0)
+                                    <span class="badge bg-primary">{{ $book->quantity }}</span>
+                                @else
+                                    <span class="badge bg-danger">Out</span>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.books.edit', $book->id) }}"
+                                   class="btn btn-warning btn-sm anim-border-pulse">✏️ Edit</a>
+                                <form action="{{ route('admin.books.destroy', $book->id) }}" method="POST"
+                                      class="d-inline-block">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm anim-colorPulse">🗑️ Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     <style>
+        /* Glare Hover Effect */
+        .glare-hover {
+            position: relative;
+            overflow: hidden;
+        }
+        .glare-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: skewX(-25deg);
+            transition: transform 0.7s ease-out, left 0.7s ease-out;
+        }
+        .glare-hover:hover::before {
+            left: 125%;
+            transform: skewX(-25deg) translateX(0);
+        }
+
+        /* Доп. стили для кнопок (optional) */
+        .btn.glare-hover {
+            color: #fff;
+            position: relative;
+        }
+
         @keyframes rainbow-text {
             0% { color: red; }
             20% { color: orange; }
@@ -68,64 +176,12 @@
             animation: rainbow-text 2s linear infinite, upPulse 2s ease-in-out infinite;
         }
 
+        .element {
+            border: 5px solid #2E9AFF;
+        }
 
     </style>
 
-
-    <h1 style="font-family: 'Curlz MT';  " class="anim-rainbow-upPulse">Books</h1>
-
-    <a href="{{ route('admin.books.create') }}" class="<!--anim-leftPulse--> btn btn-primary mb-3" style="cursor: cell">Create Book</a>
-
-    <a href="{{ route('books.all') }}" class="btn btn-success mb-3 anim-rightPulse " >Show All Books</a>
-
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th >Published At</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach ($books as $book)
-            <tr>
-                <td>{{ $book->id }}</td>
-                <td>{{ $book->title }}</td>
-                <td>{{ $book->author->name ?? '-' }}</td>
-                <td>{{ $book->category->name ?? '-' }}</td>
-                <td>{{ Str::limit($book->description, 15, '...') }}</td>
-                <td  style="font-family: 'Abril Fatface', serif;" >{{ $book->published_year }}</td>
-                <td>
-
-
-                    <a href="{{ route('admin.books.edit', $book->id) }}"
-                       class="btn btn-warning btn-sm anim-border-pulse ">Edit</a>
-
-                    <form action="{{ route('admin.books.destroy', $book->id) }}" method="POST" style="display:inline-block">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" style="cursor: no-drop" class="btn btn-danger btn-sm anim-colorPulse ">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
 @endsection
+
 

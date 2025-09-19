@@ -36,7 +36,7 @@ class CategoryRepository extends BaseRepository
         return $category->delete();
     }
 
-    public function findById(int $id): ?Category
+    public function findByName(int $id): ?Category
     {
         return $this->model::find($id) ?: null;
     }

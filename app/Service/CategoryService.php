@@ -44,7 +44,8 @@ class CategoryService
         $category = $this->findCategoryById($id);
         $updated = $this->categoryRepository->update(
             $category,
-            $data['name']
+            $data['name'],
+            $data
         );
         if (!$updated) {
             throw new Exception('Another category with this name already exists');
@@ -61,7 +62,7 @@ class CategoryService
 
     public function findCategoryById(int $id): Category
     {
-        $category = $this->categoryRepository->findById($id);
+        $category = $this->categoryRepository->findByName($id);
         if (!$category) {
             throw new Exception('Category not found');
         }
